@@ -36,6 +36,10 @@ app.get('/job', function(req, res) {
     var lastResult = fs.readJsonSync('./lastResult.json');
     var yesterdayResult = fs.readJsonSync('./yesterdayResult.json');
 
+    console.log(`=========lastResult ${lastResult.length}========`);
+    console.log(`=========yesterdayResult ${yesterdayResult.length}========`);
+    console.log(`=========latestResult ${latestResult.length}========`);
+
     ret = latestResult.map(function(item) {
       return Object.assign({}, item, {
         newSinceLastFetch: !_.find(lastResult, function(lastResultItem) {
