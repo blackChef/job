@@ -1,3 +1,3 @@
 var fs = require('fs-extra');
-
-console.log(fs.existsSync);
+var content = fs.readFileSync('./lastResult.json').toString();
+console.log(content);
