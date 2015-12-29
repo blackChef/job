@@ -1,0 +1,59 @@
+@import '../base/vars';
+@import '../base/utils';
+
+
+.card {
+  margin-bottom: $gutter;
+
+  &-header {
+    display: flex;
+    padding: $gutter--small $gutter;
+    justify-content: space-between;
+    background: white;
+    border-top: 1px solid $borderGray;
+
+    &-title {
+      font-size: pr(14);
+    }
+
+    &-actions {
+      &-item {
+        color: $fontBlack;
+        font-size: pr(12);
+        &::after {
+          content: '»';
+        }
+      }
+    }
+  }
+
+  &-body {
+    background: white;
+    border-top: 1px solid $borderGray;
+    border-bottom: 1px solid $borderGray;
+  }
+
+  &-footer {
+    border-bottom: 1px solid $borderGray;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-actions {
+      &-item {
+        padding: $gutter;
+        display: block;
+        font-size: pr(12);
+        color: $fontBlack;
+      }
+    }
+  }
+
+  @include media-md-up {
+    .card-body, .card-header, .card-footer {
+      border-left: 1px solid $borderGray;
+      border-right: 1px solid $borderGray;
+    }
+  };
+}

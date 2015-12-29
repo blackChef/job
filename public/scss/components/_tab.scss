@@ -1,0 +1,20 @@
+@import './base/vars';
+@import './base/utils';
+
+.tab-pane {
+  position: relative;
+  &-item {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    transition: 300ms;
+    opacity: 0;
+  }
+
+  &-item.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}

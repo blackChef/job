@@ -1,0 +1,42 @@
+@import '../base/vars';
+@import '../base/utils';
+
+.nav-segment {
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+
+  &-body {
+    display: flex;
+    margin-left: $gutter;
+    margin-right: $gutter;
+    border: 1px solid $blue;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  &-item {
+    font-size: 14px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: $gutter--small/1.5;
+    padding-bottom: $gutter--small/1.5;
+    border-right: 1px solid $blue;
+
+    -webkit-tap-highlight-color: transparent;
+    &:active {
+      background: rgba($blue, 0.2);
+    }
+
+    &:last-of-type {
+      border-right: 0;
+    }
+
+    &.active {
+      background: tint($blue, 100%);
+      color: $pageGray;
+    }
+  }
+}
+

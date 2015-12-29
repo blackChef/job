@@ -1,0 +1,180 @@
+@import '../base/vars';
+@import '../base/utils';
+
+@function decreaseLightness($color, $amount) {
+  $h: hue($color);
+  $s: saturation($color);
+  $l: lightness($color) - $amount;
+  @return hsl($h, $s, $l);
+};
+
+%btn {
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  text-align: center;
+  padding: $gutter--small/2 $gutter--small;
+  font-size: pr(14);
+}
+
+// style
+.btn {
+  @extend %btn;
+  background: white;
+  border-color: #DDDDDD;
+  color: $fontBlack;
+
+  &:active {
+    background: #F8F8F8;
+    border-color: #D8D8D8;
+  }
+
+  &--blue {
+    background: $blue;
+    border-color: $blue;
+    color: white;
+    &:active {
+      background: decreaseLightness($blue, 7%);
+      border-color: decreaseLightness($blue, 7%);
+    }
+  }
+
+  &--green {
+    background: $green;
+    border-color: $green;
+    color: white;
+    &:active {
+      background: decreaseLightness($green, 7%);
+      border-color: decreaseLightness($green, 7%);
+    }
+  }
+
+  &--yellow {
+    background: $yellow;
+    border-color: $yellow;
+    color: white;
+    &:active {
+      background: decreaseLightness($yellow, 7%);
+      border-color: decreaseLightness($yellow, 7%);
+    }
+  }
+
+  &--orange {
+    background: $orange;
+    border-color: $orange;
+    color: white;
+    &:active {
+      background: decreaseLightness($orange, 7%);
+      border-color: decreaseLightness($orange, 7%);
+    }
+  }
+
+  &--red {
+    background: $red;
+    border-color: $red;
+    color: white;
+    &:active {
+      background: decreaseLightness($red, 7%);
+      border-color: decreaseLightness($red, 7%);
+    }
+  }
+
+  &--disabled {
+    background: #EBEBF0;
+    color: #D2D2D2;
+    cursor: not-allowed;
+    &:active {
+      background: #EBEBF0;
+      color: #D2D2D2;
+    }
+  }
+}
+
+.btn-line {
+  @extend %btn;
+  background: transparent;
+  border-color: $blue;
+  color: $blue;
+  &:active {
+    background: rgba($blue, 0.3);
+  }
+
+  &--green {
+    border-color: $green;
+    color: $green;
+    &:active {
+      background: rgba($green, 0.3);
+    }
+  }
+
+  &--red {
+    border-color: $red;
+    color: $red;
+    &:active {
+      background: rgba($red, 0.3);
+    }
+  }
+
+  &--yellow {
+    border-color: $yellow;
+    color: $yellow;
+    &:active {
+      background: rgba($yellow, 0.3);
+    }
+  }
+
+  &--orange {
+    border-color: $orange;
+    color: $orange;
+    &:active {
+      background: rgba($orange, 0.3);
+    }
+  }
+
+  &--disabled {
+    border-color: #D2D2D2;
+    color: #D2D2D2;
+    cursor: not-allowed;
+  }
+}
+
+
+// size
+.btn {
+  &--sm {
+    font-size: pr(12);
+    padding: $gutter--small/4 $gutter--small/2;
+  }
+
+  &--lg {
+    font-size: pr(16);
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+    padding: $gutter--small $gutter;
+    font-size: pr(20);
+  }
+}
+
+.btn-line {
+  &--sm {
+    font-size: pr(12);
+    padding: $gutter--small/4 $gutter--small/2;
+  }
+
+  &--lg {
+    font-size: pr(16);
+    padding: $gutter--small $gutter;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+    padding: $gutter--small $gutter;
+    font-size: pr(20);
+  }
+}

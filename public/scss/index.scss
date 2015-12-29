@@ -1,0 +1,86 @@
+@import './base/vars';
+@import './base/utils';
+@import './base/reset';
+@import './components/card';
+@import './components/list';
+
+.container {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html {
+  font-size: 20px; // chrome for android ignore font-size < 12
+
+  @include media-md-up {
+    font-size: 20px * 1.1;
+  };
+}
+
+
+body {
+  font-size: pr(16);
+  font-family: Roboto,
+               'HelveticaNeue-Light',
+               'Helvetica Neue Light',
+               'Helvetica Neue',
+               Helvetica,
+               Arial,
+               sans-serif;
+
+  background: $pageGray;
+  color: $fontBlack;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+.pageMain {
+  visibility: hidden;
+  transition: 300ms;
+  opacity: 0;
+
+  &.ready {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+.list-item.newSinceLastFetch {
+  background: rgba($yellow, 0.2);
+  border-color: $yellow;
+}
+
+
+@include media-lg-up {
+  .list .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    background: none;
+    border-width: 0;
+  }
+
+  .list-item {
+    margin-bottom: $gutter;
+    margin-right: $gutter;
+    flex-basis: calc( (100% - #{$gutter} * 2) /3);
+    background: white;
+    border: 1px solid $borderGray;
+
+    &:nth-of-type(3n) {
+      margin-right: 0;
+    }
+
+    &-right {
+      border-bottom-width: 0;
+    }
+  }
+
+  .list-item-text-title {
+    @include clipText;
+  }
+};

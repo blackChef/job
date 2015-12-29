@@ -1,0 +1,20 @@
+@import '../base/vars';
+@import '../base/utils';
+
+.recommendation-02 {
+  &-item {
+    display: block;
+    padding-bottom: percentage(75/320);
+    height: 0;
+    background: $borderGray;
+
+    &-img {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 0px;
+  }
+}

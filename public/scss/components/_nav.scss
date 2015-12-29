@@ -1,0 +1,84 @@
+@import '../base/vars';
+@import '../base/utils';
+
+
+.site-nav {
+  .card-body {
+    padding-top: $gutter--small;
+    padding-bottom: $gutter--small;
+    border: 0;
+    background: rgba(black, 0.5);
+  }
+
+  .row {
+    display: flex;
+    border-bottom: 1px solid $borderGray;
+    padding-bottom: $gutter--small;
+    margin-bottom: $gutter--small;
+    border-color: #3e4242;
+
+    &:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom-width: 0;
+    }
+  }
+
+  &-item {
+
+    $borderOffset: 9px;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &--placeholder {
+      visibility: hidden;
+      opacity: 0; // 内容的 visibility 可能不是 hidden
+    }
+
+    &:last-of-type {
+      &::after {
+        display: none;
+      }
+    }
+
+    &::after {
+      content: '';
+      width: 1px;
+      position: absolute;
+      top: $borderOffset;
+      right: 0;
+      background: #3e4242;
+      height: calc(100% - #{$borderOffset * 2});
+    }
+
+    @at-root.no-csscalc &::after {
+      top: 0;
+      height: 100%;
+    }
+
+    &-icon {
+      height: pr(24);
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    &-text {
+      display: block;
+      color: #989898;
+      font-size: pr(12);
+      max-width: 100%;
+      @include clipText;
+    }
+  }
+
+  @include media-md-up {
+    .container {
+      border: 0;
+    }
+  };
+}

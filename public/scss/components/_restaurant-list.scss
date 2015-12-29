@@ -1,0 +1,145 @@
+@import '../base/vars';
+@import '../base/utils';
+
+
+.restaurant-list {
+  .card-body {
+    padding: $gutter--small;
+    border-top: 0;
+  }
+
+  .card-header {
+    padding-bottom: 0;
+  }
+
+  &-item {
+    display: block;
+    margin-bottom: $gutter;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &-top {
+      position: relative;
+      height: 0;
+      padding-bottom: 60%;
+      overflow: hidden;
+      background: $borderGray;
+    }
+
+    &-img {
+      display: block;
+      width: 100%;
+    }
+
+    &-mask {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(to bottom, transparent, black);
+      display: flex;
+      align-items: center;
+      padding: $gutter--small $gutter;
+      @include fontColor(white);
+
+      &-left {
+        flex: 1;
+      }
+    }
+
+    &-name {
+      @include clipText;
+      font-size: pr(14);
+      margin-bottom: pr(6);
+    }
+
+    &-location {
+      font-size: pr(12);
+
+      svg {
+        position: relative;
+        height: pr(14);
+        width: pr(14);
+        top: 2px;
+        margin-right: pr(4);
+
+        path {
+          fill: $borderGray;
+        }
+      }
+    }
+
+    &-discount {
+      font-size: pr(14);
+      &-num {
+        font-size: pr(45);
+        margin-right: pr(4);
+        position: relative;
+        top: 2px;
+      }
+
+      &-num:empty + span {
+        display: none;
+      }
+    }
+
+    &-bottom {
+      padding: $gutter--small $gutter;
+      color: $fontBlack;
+      font-size: pr(12);
+      border: 1px solid $borderGray;
+      border-top: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    &-meta {
+      width: 60%;
+      @include clipText;
+    }
+
+    &-badges {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+
+      &-item {
+        margin-right: $gutter--small;
+        height: pr(14);
+        &:last-of-type {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  @include media-md-up {
+    .card-body {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &-item {
+      margin-right: $gutter;
+      width: calc( (100% - #{$gutter}) / 2 );
+
+      &:nth-of-type(2n) {
+        margin-right: 0;
+      }
+
+    }
+  };
+}
+
+
+
+@include androidLegacy {
+  .restaurant-list-item-location svg {
+    width: pr(14);
+  }
+};

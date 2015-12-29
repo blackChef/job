@@ -1,0 +1,111 @@
+
+@mixin clearfix {
+  &:before,
+  &:after {
+    display: table;
+    content: " ";
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin clipText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin hideText {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+}
+
+@mixin fontColor($color) {
+  color: $color;
+  a {
+    color: inherit;
+  }
+}
+
+@mixin iosClickable {
+  cursor: pointer;
+}
+
+@function tint($color, $percentage) {
+  @return mix($color, white, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix($color, black, $percentage);
+}
+
+
+// media queries
+@mixin media-sm-up() {
+  @media screen {
+    @content;
+  }
+}
+
+@mixin media-sm-only() {
+  @media screen and (max-width: 640px) {
+    @content;
+  }
+}
+
+@mixin media-md-up() {
+  @media screen and (min-width: 641px) {
+    @content;
+  }
+}
+
+@mixin media-md-only() {
+  @media screen and (min-width: 641px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin media-lg-up() {
+  @media screen and (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin media-lg-only() {
+  @media screen and (min-width: 1025px) and (max-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin media-xlg-up() {
+  @media screen and (min-width: 1441px) {
+    @content;
+  }
+}
+
+@mixin media-xlg-only() {
+  @media screen and (min-width: 1441px) and (max-width: 1920px) {
+    @content;
+  }
+}
+
+@mixin media-xxlg-up() {
+  @media screen and (min-width: 1921px) {
+    @content;
+  }
+}
+
+// assume modernizr exist
+@mixin androidLegacy() {
+  .no-flexbox.flexboxlegacy {
+    @content;
+  }
+}
+
+@function pr($size, $base: 20) {
+  $remSize: $size / $base;
+  @return #{$remSize}rem;
+}

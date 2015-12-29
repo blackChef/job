@@ -1,0 +1,72 @@
+@import '../base/vars';
+@import '../base/utils';
+
+.brand-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: pr(50);
+  height: pr(275); // 足够容纳两行导航的空间
+  background-color: black;
+  background-size: cover;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(black, 0.1), rgba(black, 0.8));
+  }
+
+  &-avatar {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 6px;
+    background: $borderGray;
+    width: pr(48);
+    height: pr(48);
+    border-radius: 50%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  &-name {
+    position: relative;
+    z-index: 10;
+    color: white;
+    font-size: pr(14);
+    margin-bottom: pr(3);
+  }
+
+  &-location {
+    position: relative;
+    z-index: 10;
+    font-size: pr(12);
+    color: $fontGray;
+
+    svg {
+      position: relative;
+      top: 2px;
+      height: pr(14);
+      width: pr(14);
+      margin-right: pr(4);
+      path {
+        fill: $fontGray;
+      }
+    }
+  }
+}
+
+@include androidLegacy {
+  .brand-profile-location svg {
+    width: pr(14);
+  }
+};

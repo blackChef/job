@@ -1,0 +1,37 @@
+@import '../base/vars';
+@import '../base/utils';
+
+.tiles {
+  .card-body {
+    padding: 0;
+  }
+
+  .row {
+    display: flex;
+    border-bottom: 1px solid $borderGray;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  &-item {
+    flex: 1;
+    border-right: 1px solid $borderGray;
+
+    &:nth-of-type(2n) {
+      border-right: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+@include androidLegacy {
+  .tiles-item {
+    display: block;
+  }
+};

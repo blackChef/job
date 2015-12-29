@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Document</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <main class="pageMain">
+    <section class="list card">
+      <div class="container">
+        <div class="card-header">
+          <h1 class="card-header-title">New Jobs</h1>
+        </div>
+        <div class="card-body">
+          <!-- ko foreach: newJobs -->
+          <div class="list-item" data-bind="css: {newSinceLastFetch: newSinceLastFetch}">
+            <div class="list-item-right">
+              <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
+                <span data-bind="text: companyName" class="list-item-text-title"></span>
+                <span class="list-item-text-subtitle">
+                  <span data-bind="text: salary"></span>
+                  <span data-bind="text: src"></span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <!-- /ko -->
+        </div>
+      </div>
+    </section>
+
+    <section class="list card">
+      <div class="container">
+        <div class="card-header">
+          <h1 class="card-header-title">
+            <span>All Jobs</span>
+            <small>(<span data-bind="text: allJobs.length"></span> 个)</small>
+          </h1>
+        </div>
+        <div class="card-body">
+          <!-- ko foreach: allJobs -->
+          <div class="list-item">
+            <div class="list-item-right">
+              <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
+                <span data-bind="text: companyName" class="list-item-text-title"></span>
+                <span class="list-item-text-subtitle">
+                  <span data-bind="text: salary"></span>
+                  <span data-bind="text: src"></span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <!-- /ko -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/knockout-3.4.0.js"></script>
+  <script src="js/lodash.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
