@@ -1,5 +1,5 @@
 
-var src = `//${location.hostname}:5000/job`;
+var src = `/job/`;
 
 
 var ignoreCompanies = [
