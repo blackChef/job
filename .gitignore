@@ -1,7 +1,5 @@
 prepros.cfg
 node_modules/
-lastResult.json
-yesterdatResult.json
 
 # Windows image file caches
 Thumbs.db
