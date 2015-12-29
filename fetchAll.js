@@ -34,6 +34,14 @@ module.exports = function(callback) {
       }
     },
     function() {
+      if ( !fs.existsSync('./lastResult.json') ) {
+        fs.outputJsonSync('./lastResult.json', []);
+      }
+
+      if ( !fs.existsSync('./yesterdayResult.json') ) {
+        fs.outputJsonSync('./yesterdayResult.json', []);
+      }
+
       latestResult = _.chain(result).flatten().uniq(item => item.companyName).value();
 
       var todayTime = moment().format('YYYYMMDD');

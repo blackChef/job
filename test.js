@@ -1,5 +1,3 @@
-var lagou = require('./lagou.js');
+var fs = require('fs-extra');
 
-lagou(function(err, result) {
-  console.log(result);
-});
+console.log(fs.existsSync);
