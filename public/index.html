@@ -3,66 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title>Document</title>
+  <title>工作</title>
   <meta name="keywords" content="">
   <meta name="description" content="">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+  <div class="splashScreen">
+    <div class="x-spinner">
+      <div class="x-spinner-item"></div>
+      <div class="x-spinner-item"></div>
+      <div class="x-spinner-item"></div>
+    </div>
+  </div>
 
-  <main class="pageMain">
-    <section class="list card">
-      <div class="container">
-        <div class="card-header">
-          <h1 class="card-header-title">New Jobs</h1>
-        </div>
-        <div class="card-body">
-          <!-- ko foreach: newJobs -->
-          <div class="list-item" data-bind="css: {newSinceLastFetch: newSinceLastFetch}">
-            <div class="list-item-right">
-              <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
-                <span data-bind="text: companyName" class="list-item-text-title"></span>
-                <span class="list-item-text-subtitle">
-                  <span data-bind="text: salary"></span>
-                  <span data-bind="text: src"></span>
-                </span>
-              </a>
+  <div class="pageContent">
+    <header class="pageHeader">
+    </header>
+
+    <main class="pageMain">
+      <!-- ko foreach: allJobs -->
+        <section class="list card jobList">
+          <div class="container">
+            <div class="card-header">
+              <h1 class="card-header-title" data-bind="text: date"></h1>
+            </div>
+            <div class="card-body">
+              <!-- ko foreach: data -->
+              <div class="list-item jobList-item" data-bind="css: { newSinceLastVisit: newSinceLastVisit }">
+                <div class="list-item-right">
+                  <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
+                    <span data-bind="text: companyName" class="list-item-text-title"></span>
+                    <span class="list-item-text-subtitle">
+                      <span data-bind="text: salary"></span>
+                      <span data-bind="text: src"></span>
+                    </span>
+                  </a>
+
+                  <div class="list-item-actions">
+                    <button type="button" class="jobList-item-hideBtn btn-line btn-line--sm btn-line--red list-item-actions-item">隐藏</button>
+                    <!-- <button type="button" class="btn-line btn-line--sm btn-line--green list-item-actions-item">click</button> -->
+                  </div>
+                </div>
+              </div>
+              <!-- /ko -->
             </div>
           </div>
-          <!-- /ko -->
-        </div>
-      </div>
-    </section>
+        </section>
+      <!-- /ko -->
+    </main>
+  </div>
 
-    <section class="list card">
-      <div class="container">
-        <div class="card-header">
-          <h1 class="card-header-title">
-            <span>All Jobs</span>
-            <small>(<span data-bind="text: allJobs.length"></span> 个)</small>
-          </h1>
-        </div>
-        <div class="card-body">
-          <!-- ko foreach: allJobs -->
-          <div class="list-item">
-            <div class="list-item-right">
-              <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
-                <span data-bind="text: companyName" class="list-item-text-title"></span>
-                <span class="list-item-text-subtitle">
-                  <span data-bind="text: salary"></span>
-                  <span data-bind="text: src"></span>
-                </span>
-              </a>
-            </div>
-          </div>
-          <!-- /ko -->
-        </div>
-      </div>
-    </section>
-  </main>
+
 
   <script src="js/knockout-3.4.0.js"></script>
   <script src="js/lodash.min.js"></script>
+  <script src="js/moment.js"></script>
   <script src="js/index.js"></script>
 </body>
 </html>

@@ -37,7 +37,10 @@ app.get('/job', function(req, res) {
     console.log(`=========newResult ${newResult.length}========`);
     console.log('\r\n');
 
-    res.json(result);
+    res.json({
+      allResult: result,
+      newResult: newResult
+    });
   });
 
 });

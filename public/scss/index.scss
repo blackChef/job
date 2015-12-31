@@ -3,6 +3,8 @@
 @import './base/reset';
 @import './components/card';
 @import './components/list';
+@import './components/button';
+@import './components/loader';
 
 .container {
   max-width: 960px;
@@ -17,7 +19,6 @@ html {
     font-size: 20px * 1.1;
   };
 }
-
 
 body {
   font-size: pr(16);
@@ -38,7 +39,18 @@ a {
   text-decoration: none;
 }
 
-.pageMain {
+
+.pageHeader {
+  .card-body {
+    padding: $gutter;
+  }
+  .jobCont {
+    font-size: pr(22);
+    margin-bottom: 0;
+  }
+}
+
+.pageContent {
   visibility: hidden;
   transition: 300ms;
   opacity: 0;
@@ -49,11 +61,31 @@ a {
   }
 }
 
-
-.list-item.newSinceLastFetch {
-  background: rgba($yellow, 0.2);
-  border-color: $yellow;
+.list-item-text {
+  background-image: none !important;
 }
+
+.jobList-item {
+  transition: transform 400ms;
+
+  &.hidden {
+    transform: scale(0);
+  }
+}
+
+.jobList-item a:visited .list-item-text-title {
+  color: $fontGray;
+}
+
+.jobList-item.newSinceLastVisit {
+  background: rgba($yellow, 0.2);
+
+  .list-item-text-title {
+    color: $orange;
+  }
+}
+
+
 
 
 @include media-lg-up {

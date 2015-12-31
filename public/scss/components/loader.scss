@@ -1,20 +1,6 @@
 @import '../base/vars';
 @import '../base/utils';
 
-body {
-  font-size: pr(16);
-  font-family: Roboto,
-               'HelveticaNeue-Light',
-               'Helvetica Neue Light',
-               'Helvetica Neue',
-               Helvetica,
-               Arial,
-               sans-serif;
-
-  background: $pageGray;
-  color: $fontBlack;
-}
-
 .splashScreen {
   position: fixed;
   top: 0;
