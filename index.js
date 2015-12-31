@@ -27,18 +27,16 @@ app.use(function(req, res, next){
 
 app.get('/job', function(req, res) {
 
-  fetchAll(function(err, latestResult) {
+  fetchAll(function(err, latestResult, lastResult, yesterdayResult) {
     if (err) {
       res.status(500).end(err);
       return;
     }
 
-    var lastResult = fs.readJsonSync('./lastResult.json');
-    var yesterdayResult = fs.readJsonSync('./yesterdayResult.json');
-
     console.log(`=========lastResult ${lastResult.length}========`);
     console.log(`=========yesterdayResult ${yesterdayResult.length}========`);
     console.log(`=========latestResult ${latestResult.length}========`);
+    console.log('\r\n');
 
     ret = latestResult.map(function(item) {
       return Object.assign({}, item, {

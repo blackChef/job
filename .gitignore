@@ -3,6 +3,7 @@ node_modules/
 yesterdayResult.json
 lastResult.json
 whenIsTodayResultFetched.json
+test.js
 
 # Windows image file caches
 Thumbs.db
