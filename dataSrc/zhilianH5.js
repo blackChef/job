@@ -1,19 +1,19 @@
-var fetchContent = require('./fetch.js');
+var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
 
 module.exports = function(callback) {
   var options = {
-    pageTpl: `http://m.51job.com/search/joblist.php?jobarea=150200&keyword=html5&pageno={page}`,
+    pageTpl: `http://m.zhaopin.com/anhui-hefei-664/?keyword=html5&pageindex={page}`,
     pageSize: 1,
     handleContent: function($) {
-      var list = $('.jblist > a');
+      var list = $('.r_searchlist .listbox a');
       return _.map(list, function(item) {
         return {
-          companyName: $(item).find('aside').text(),
-          salary: $(item).find('em').text(),
+          companyName: $(item).find('.companyname').text(),
+          salary: $(item).find('.salary').text(),
           link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '51job'
+          src: '智联招聘'
         };
       });
     },

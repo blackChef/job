@@ -1,11 +1,10 @@
-var fetchContent = require('./fetch.js');
+var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
 
 module.exports = function(callback) {
   var options = {
-    pageTpl: `http://m.zhaopin.com/anhui-hefei-664/?keyword=html5&pageindex={page}`,
-    pageSize: 1,
+    pageTpl: `http://m.zhaopin.com/anhui-hefei-664/?keyword=%E5%89%8D%E7%AB%AF&pageindex={page}`,
     handleContent: function($) {
       var list = $('.r_searchlist .listbox a');
       return _.map(list, function(item) {

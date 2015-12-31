@@ -27,30 +27,17 @@ app.use(function(req, res, next){
 
 app.get('/job', function(req, res) {
 
-  fetchAll(function(err, latestResult, lastResult, yesterdayResult) {
+  fetchAll(function(err, result, newResult) {
     if (err) {
       res.status(500).end(err);
       return;
     }
 
-    console.log(`=========lastResult ${lastResult.length}========`);
-    console.log(`=========yesterdayResult ${yesterdayResult.length}========`);
-    console.log(`=========latestResult ${latestResult.length}========`);
+    console.log(`=========result ${result.length}========`);
+    console.log(`=========newResult ${newResult.length}========`);
     console.log('\r\n');
 
-    ret = latestResult.map(function(item) {
-      return Object.assign({}, item, {
-        newSinceLastFetch: !_.find(lastResult, function(lastResultItem) {
-          return lastResultItem.companyName == item.companyName;
-        }),
-
-        newSinceYesterday: !_.find(yesterdayResult, function(lastResultItem) {
-          return lastResultItem.companyName == item.companyName;
-        })
-      });
-    });
-
-    res.json(ret);
+    res.json(result);
   });
 
 });

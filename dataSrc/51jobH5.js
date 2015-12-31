@@ -1,10 +1,11 @@
-var fetchContent = require('./fetch.js');
+var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
 
 module.exports = function(callback) {
   var options = {
-    pageTpl: `http://m.51job.com/search/joblist.php?jobarea=150200&keyword=%E5%89%8D%E7%AB%AF&pageno={page}`,
+    pageTpl: `http://m.51job.com/search/joblist.php?jobarea=150200&keyword=html5&pageno={page}`,
+    pageSize: 1,
     handleContent: function($) {
       var list = $('.jblist > a');
       return _.map(list, function(item) {

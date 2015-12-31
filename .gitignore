@@ -1,8 +1,6 @@
 prepros.cfg
 node_modules/
-yesterdayResult.json
-lastResult.json
-whenIsTodayResultFetched.json
+allResult.json
 test.js
 
 # Windows image file caches

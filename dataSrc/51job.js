@@ -1,20 +1,18 @@
-var fetchContent = require('./fetch.js');
+var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
 
 module.exports = function(callback) {
   var options = {
-    pageTpl: `http://m.goodjobs.cn/list.php?keyword=html5&page={page}`,
-    pageSize: 2,
-    gbk: true,
+    pageTpl: `http://m.51job.com/search/joblist.php?jobarea=150200&keyword=%E5%89%8D%E7%AB%AF&pageno={page}`,
     handleContent: function($) {
-      var list = $('.jobview_lists a');
+      var list = $('.jblist > a');
       return _.map(list, function(item) {
         return {
-          companyName: $(item).find('.corp_name').text(),
-          salary: $(item).find('.apply_name i').text(),
+          companyName: $(item).find('aside').text(),
+          salary: $(item).find('em').text(),
           link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '新安人才网'
+          src: '51job'
         };
       });
     },
@@ -26,5 +24,6 @@ module.exports = function(callback) {
       callback(err, null);
     }
   };
+
   fetchContent(options);
 };

@@ -1,4 +1,4 @@
-var fetchContent = require('./fetch.js');
+var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
 
