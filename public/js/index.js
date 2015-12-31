@@ -1,29 +1,22 @@
 var src = `/job/`;
 
 
-var defaultIgnoreCompanies = [
-  '中青中关村软件人才基地',
-  '达内',
-  // '医院',
-  // '万户',
-  // '万有',
-  '凯捷',
-  '小猪'
+var defaultIgnoredCompanies = [
 ];
 
-var localIgnoreCompanies = JSON.parse(localStorage.getItem('ignoreCompanies')) || [];
+var localIgnoredCompanies = JSON.parse(localStorage.getItem('ignoredCompanies')) || [];
 
 function isIgnoredCompany(companyName) {
-  var ignoreCompanies = defaultIgnoreCompanies.concat(localIgnoreCompanies);
-  return ignoreCompanies.some(function(item) {
+  var ignoredCompanies = defaultIgnoredCompanies.concat(localIgnoredCompanies);
+  return ignoredCompanies.some(function(item) {
     var r = new RegExp(item);
     return r.test(companyName);
   });
 }
 
 function ignoreCompany(keyword) {
-  localIgnoreCompanies.push(keyword);
-  localStorage.setItem('ignoreCompanies', JSON.stringify(localIgnoreCompanies));
+  localIgnoredCompanies.push(keyword);
+  localStorage.setItem('ignoredCompanies', JSON.stringify(localIgnoredCompanies));
 }
 
 document.documentElement.addEventListener('transitionend', function(event) {
@@ -51,6 +44,29 @@ document.documentElement.addEventListener('click', function(event) {
   }
 }, false);
 
+
+
+var ignoredTitles = [
+  '设计',
+  '游戏',
+  '美工',
+  /实习|训/,
+  /\.net/i,
+  /java(?!script)/i,
+  /php/i,
+  '销售',
+  '经理',
+];
+
+function isIgnoredTitle(title) {
+  return ignoredTitles.some(function(item) {
+    var r = new RegExp(item);
+    return r.test(title);
+  });
+}
+
+
+
 fetch(src).then(res => res.json())
   .then(function(res) {
     var curtVisitTime = Date.now();
@@ -59,7 +75,7 @@ fetch(src).then(res => res.json())
 
     var allJobs = _.chain(res.allResult)
       .filter(function(item) {
-        return !isIgnoredCompany(item.companyName);
+        return !isIgnoredCompany(item.companyName) && !isIgnoredTitle(item.title);
       })
       .sort(function(a, b) {
         return b.fetchTime - a.fetchTime;
@@ -67,7 +83,7 @@ fetch(src).then(res => res.json())
       .map(function(item) {
         return Object.assign({}, item, {
           date: moment(item.fetchTime).format('YYYY年MM月DD日'),
-          newSinceLastVisit: item.fetchTime > lastVisitTime
+          newSinceLastCheck: item.fetchTime > lastVisitTime
         });
       })
       .groupBy('date')
@@ -94,3 +110,6 @@ fetch(src).then(res => res.json())
     document.querySelector('.splashScreen').classList.add('hidden');
 
   });
+
+
+

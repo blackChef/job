@@ -13,7 +13,8 @@ module.exports = function(callback) {
           companyName: $(item).find('.companyname').text(),
           salary: $(item).find('.salary').text(),
           link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '智联招聘'
+          src: '智联招聘',
+          title: $(item).find('.jobname').text()
         };
       });
     },

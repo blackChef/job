@@ -14,7 +14,8 @@ module.exports = function(callback) {
           companyName: $(item).find('.corp_name').text(),
           salary: $(item).find('.apply_name i').text(),
           link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '新安人才网'
+          src: '新安人才网',
+          title: $(item).find('.job_name').text()
         };
       });
     },

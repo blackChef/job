@@ -12,7 +12,8 @@ module.exports = function(callback) {
           companyName: $(item).find('aside').text(),
           salary: $(item).find('em').text(),
           link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '51job'
+          src: '51job',
+          title: $(item).find('h3').text()
         };
       });
     },

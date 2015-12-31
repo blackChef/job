@@ -30,19 +30,21 @@
             </div>
             <div class="card-body">
               <!-- ko foreach: data -->
-              <div class="list-item jobList-item" data-bind="css: { newSinceLastVisit: newSinceLastVisit }">
+              <div class="list-item jobList-item" data-bind="css: { newSinceLastCheck: newSinceLastCheck }">
                 <div class="list-item-right">
                   <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
                     <span data-bind="text: companyName" class="list-item-text-title"></span>
-                    <span class="list-item-text-subtitle">
-                      <span data-bind="text: salary"></span>
-                      <span data-bind="text: src"></span>
-                    </span>
+                    <div class="list-item-text-subtitle">
+                      <div data-bind="text: title"></div>
+                      <div>
+                        <span data-bind="text: salary"></span>
+                        <span data-bind="text: src"></span>
+                      </div>
+                    </div>
                   </a>
 
                   <div class="list-item-actions">
                     <button type="button" class="jobList-item-hideBtn btn-line btn-line--sm btn-line--red list-item-actions-item">隐藏</button>
-                    <!-- <button type="button" class="btn-line btn-line--sm btn-line--green list-item-actions-item">click</button> -->
                   </div>
                 </div>
               </div>

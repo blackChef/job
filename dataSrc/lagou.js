@@ -17,7 +17,7 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
 });
 
 module.exports = function(callback) {
-  var source = Rx.Observable.range(1, 4).flatMap(function(pageCount) {
+  var source = Rx.Observable.range(1, 3).flatMap(function(pageCount) {
     return rxRequest({
       method: 'POST',
       url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
@@ -38,7 +38,8 @@ module.exports = function(callback) {
           companyName: item.companyName,
           salary: item.salary,
           link: `http://www.lagou.com/jobs/${item.positionId}.html`,
-          src: `拉钩网`
+          src: `拉钩网`,
+          title: item.positionName
         });
       });
     },
