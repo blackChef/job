@@ -3,13 +3,13 @@ var src = `/job/`;
 
 
 var ignoreCompanies = [
-  '中青中关村软件人才基地',
-  '达内',
-  '医院',
-  '万户',
-  '万有',
-  '凯捷',
-  '小猪'
+  // '中青中关村软件人才基地',
+  // '达内',
+  // '医院',
+  // '万户',
+  // '万有',
+  // '凯捷',
+  // '小猪'
 ];
 
 function isIgnoredCompany(companyName) {

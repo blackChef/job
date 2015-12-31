@@ -2,6 +2,7 @@ prepros.cfg
 node_modules/
 yesterdayResult.json
 lastResult.json
+whenIsTodayResultFetched.json
 
 # Windows image file caches
 Thumbs.db
