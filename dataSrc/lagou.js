@@ -33,8 +33,10 @@ module.exports = function(callback) {
   var result = [];
   var subscription = source.subscribe(
     function(next) {
-      if (next) {
-        next.content.result.forEach(function(item) {
+      var content = next.content;
+
+      if (content) {
+        content.result.forEach(function(item) {
           result.push({
             companyName: item.companyName,
             salary: item.salary,
