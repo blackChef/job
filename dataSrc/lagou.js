@@ -5,7 +5,6 @@ var Rx = require('rx');
 
 
 var rxRequest = Rx.Observable.fromNodeCallback(function(options, callback) {
-  console.log(`start fetching: lagou frontEnd page${options.form.pn}`);
   request(options, function(err, res, body) {
     if (err) {
       callback(err);
@@ -45,7 +44,6 @@ module.exports = function(callback) {
 
     function(err) {
       if (err) {
-        console.log(`lagou error: ${JSON.stringify(err)}`);
         callback(Object.assign({}, err, {src: 'lagou'}), null);
       }
     },

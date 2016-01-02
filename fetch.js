@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 var Rx = require('rx');
 var iconv = require('iconv-lite');
 
-var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
+var rxRequest = Rx.Observable.fromNodeCallback(function(options, callback) {
   // console.log(`start fetching: ${options.url}`);
   request(options, function(err, res, body) {
     if (err) {

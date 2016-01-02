@@ -29,7 +29,7 @@ app.get('/job', function(req, res) {
   fetchAll(function(err, result, newResult) {
     if (err) {
       console.log(`express error: ${JSON.stringify(err)}`);
-      res.status(500).end(err.message);
+      res.status(500).end( JSON.stringify(err) );
       return;
     }
 
