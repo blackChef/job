@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var fetchAll = require('./fetchAll.js');
-var fs = require('fs-extra');
 var express = require('express');
 var compression = require('compression');
 
@@ -16,13 +15,13 @@ var server = app.listen(process.env.PORT || 5000, function () {
 
 app.use(compression());
 app.use(express.static('public'));
-app.use(function(req, res, next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-    next();
-}).options('*', function(req, res, next){
-    res.end();
-});
+// app.use(function(req, res, next){
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+//     next();
+// }).options('*', function(req, res, next){
+//     res.end();
+// });
 
 
 app.get('/job', function(req, res) {
