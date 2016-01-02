@@ -11,7 +11,7 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
       return;
     }
 
-    body = JSON.parse( body.toString() );
+    body = JSON.parse(body.toString());
     callback(body);
   });
 });
@@ -28,20 +28,24 @@ module.exports = function(callback) {
         kd: 'html5'
       }
     });
-  });
+  }).retry(3);
 
   var result = [];
   var subscription = source.subscribe(
     function(next) {
-      next.content.result.forEach(function(item) {
-        result.push({
-          companyName: item.companyName,
-          salary: item.salary,
-          link: `http://www.lagou.com/jobs/${item.positionId}.html`,
-          src: `拉钩网`,
-          title: item.positionName
+      if (next) {
+        next.content.result.forEach(function(item) {
+          result.push({
+            companyName: item.companyName,
+            salary: item.salary,
+            link: `http://www.lagou.com/jobs/${item.positionId}.html`,
+            src: `拉钩网`,
+            title: item.positionName
+          });
         });
-      });
+      } else {
+        callback(new Error('fetch lagou failed'), null);
+      }
     },
 
     function(err) {
@@ -55,4 +59,3 @@ module.exports = function(callback) {
     }
   );
 };
-

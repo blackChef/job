@@ -40,6 +40,8 @@ app.get('/job', function(req, res) {
       allResult: result,
       newResult: newResult
     });
+
+    console.log('finish request');
   });
 
 });

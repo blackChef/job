@@ -65,9 +65,24 @@ function isIgnoredTitle(title) {
   });
 }
 
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  } else {
+    var error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+}
+
+function parseJSON(response) {
+  return response.json();
+}
 
 
-fetch(src).then(res => res.json())
+fetch(src)
+  .then(checkStatus)
+  .then(parseJSON)
   .then(function(res) {
     var curtVisitTime = Date.now();
     var lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
@@ -109,6 +124,9 @@ fetch(src).then(res => res.json())
     document.querySelector('.pageContent').classList.add('ready');
     document.querySelector('.splashScreen').classList.add('hidden');
 
+  })
+  .catch(function(err) {
+    alert(err.message);
   });
 
 

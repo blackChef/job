@@ -77,19 +77,22 @@ module.exports = function(callback) {
           return !allResult.find(allResultItem => allResultItem.companyName == item.companyName);
         });
 
-        allResult = allResult.concat(newResult);
-
-        s3.putObject(
-          Object.assign({}, s3params, {
-            'Body': JSON.stringify(allResult)
-          }),
-          function(err, res) {
-            if (err) {
-              callback(err, null, null);
-            } else {
-              callback(null, allResult, newResult);
-            }
-          });
+        if (newResult.length > 0) {
+          allResult = allResult.concat(newResult);
+          s3.putObject(
+            Object.assign({}, s3params, {
+              'Body': JSON.stringify(allResult)
+            }),
+            function(err, res) {
+              if (err) {
+                callback(err, null, null);
+              } else {
+                callback(null, allResult, newResult);
+              }
+            });
+        } else {
+          callback(null, allResult, newResult);
+        }
       });
     }
   );

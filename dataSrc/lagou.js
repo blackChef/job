@@ -28,20 +28,24 @@ module.exports = function(callback) {
         kd: '前端开发'
       }
     });
-  });
+  }).retry(3);
 
   var result = [];
   var subscription = source.subscribe(
     function(next) {
-      next.content.result.forEach(function(item) {
-        result.push({
-          companyName: item.companyName,
-          salary: item.salary,
-          link: `http://www.lagou.com/jobs/${item.positionId}.html`,
-          src: `拉钩网`,
-          title: item.positionName
+      if (next) {
+        next.content.result.forEach(function(item) {
+          result.push({
+            companyName: item.companyName,
+            salary: item.salary,
+            link: `http://www.lagou.com/jobs/${item.positionId}.html`,
+            src: `拉钩网`,
+            title: item.positionName
+          });
         });
-      });
+      } else {
+        callback(new Error('fetch lagou failed'), null);
+      }
     },
 
     function(err) {
