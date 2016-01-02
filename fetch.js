@@ -4,7 +4,7 @@ var Rx = require('rx');
 var iconv = require('iconv-lite');
 
 var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
-  console.log(`start fetching ${options.url}`);
+  console.log(`start fetching: ${options.url}`);
   request(options, function(err, res, body) {
     if (err) {
       callback(err);
@@ -23,10 +23,10 @@ function fetchContent(options) {
   var source = Rx.Observable.range(1, options.pageSize || 5).flatMap(function(pageCount) {
     return rxRequest({
       url: options.pageTpl.replace('{page}', pageCount),
-      timeout: 5000,
+      timeout: 10000,
       encoding: null,
       gbk: options.gbk,
-    });
+    }).retry(3);
   })
   .map(function(res) {
     var $ = cheerio.load(res, { decodeEntities: false });

@@ -5,7 +5,7 @@ var Rx = require('rx');
 
 
 var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
-  console.log(`start fetching ${options.url}`);
+  console.log(`start fetching: lagou html5 page${options.form.pn}`);
   request(options, function(err, res, body) {
     if (err) {
       callback(err);
@@ -18,18 +18,18 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
 });
 
 module.exports = function(callback) {
-  var source = Rx.Observable.range(1, 2).flatMap(function(pageCount) {
+  var source = Rx.Observable.range(1, 3).flatMap(function(pageCount) {
     return rxRequest({
       method: 'POST',
       url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
-      timeout: 5000,
+      timeout: 10000,
       form: {
         first: false,
         pn: pageCount,
         kd: 'html5'
       }
-    });
-  }).retry(3);
+    }).retry(3);
+  });
 
   var result = [];
   var subscription = source.subscribe(
@@ -46,6 +46,7 @@ module.exports = function(callback) {
           });
         });
       } else {
+        console.log(next);
         callback(new Error('fetch lagou failed'), null);
       }
     },
@@ -61,3 +62,4 @@ module.exports = function(callback) {
     }
   );
 };
+
