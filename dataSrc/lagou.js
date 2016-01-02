@@ -5,13 +5,14 @@ var Rx = require('rx');
 
 
 var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
+  console.log(`start fetching ${options.url}`);
   request(options, function(err, res, body) {
     if (err) {
       callback(err);
       return;
     }
 
-    body = JSON.parse( body.toString() );
+    body = JSON.parse(body.toString());
     callback(body);
   });
 });
