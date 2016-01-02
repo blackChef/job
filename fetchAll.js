@@ -68,7 +68,7 @@ module.exports = function(callback) {
 
       s3.getObject(s3params, function(err, res) {
         if (err) {
-          callback(err, null);
+          callback(err, null, null);
           return;
         }
 
@@ -79,20 +79,20 @@ module.exports = function(callback) {
 
         if (newResult.length > 0) {
           allResult = allResult.concat(newResult);
+
           s3.putObject(
             Object.assign({}, s3params, {
               'Body': JSON.stringify(allResult)
             }),
             function(err, res) {
               if (err) {
-                callback(err, null, null);
-              } else {
-                callback(null, allResult, newResult);
+                console.log(err);
               }
             });
-        } else {
-          callback(null, allResult, newResult);
         }
+
+        // dont wait for s3
+        callback(null, allResult, newResult);
       });
     }
   );
