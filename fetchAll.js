@@ -3,6 +3,11 @@ var _ = require('lodash');
 var moment = require('moment');
 var AWS = require('aws-sdk');
 
+AWS.config.update({
+  accessKeyId: 'AKIAIOTIHNQIMIC6CPVQ',
+  secretAccessKey: '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'
+});
+
 if (process.env.ISLOCAL == 1) {
   console.log('use proxy');
   var proxy = require('proxy-agent');
