@@ -34,7 +34,6 @@ module.exports = function(callback) {
   var subscription = source.subscribe(
     function(next) {
       var content = next.content;
-
       if (content) {
         content.result.forEach(function(item) {
           result.push({
@@ -46,6 +45,7 @@ module.exports = function(callback) {
           });
         });
       } else {
+        console.log(next);
         callback(new Error('fetch lagou failed'), null);
       }
     },

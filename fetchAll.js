@@ -39,7 +39,7 @@ module.exports = function(callback) {
 
   var source = Rx.Observable.concat(
     lagou(),
-    lagouH5(),
+    // lagouH5(),
     goodjobs(), n51job(), zhilian()
   );
 
