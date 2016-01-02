@@ -38,9 +38,10 @@ lagouH5 = Rx.Observable.fromNodeCallback(require('./dataSrc/lagouH5.js'));
 module.exports = function(callback) {
 
   var source = Rx.Observable.concat(
-    lagou(),
-    lagouH5(),
-    goodjobs(), n51job(), zhilian()
+    lagou()
+    // lagou(),
+    // lagouH5(),
+    // goodjobs(), n51job(), zhilian()
   );
 
   var result = [];

@@ -28,6 +28,7 @@ app.get('/job', function(req, res) {
 
   fetchAll(function(err, result, newResult) {
     if (err) {
+      console.log(err);
       res.status(500).end(err.message);
       return;
     }
