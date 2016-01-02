@@ -14,7 +14,10 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
 
     body = JSON.parse(body.toString());
 
-    console.log(body);
+    if (!body.success) {
+      console.log(body);
+    }
+
     callback(body);
   });
 });
