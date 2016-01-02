@@ -8,18 +8,9 @@ var rxRequest = Rx.Observable.fromNodeCallback(function(options, callback) {
   console.log(`start fetching: lagou frontEnd page${options.form.pn}`);
   request(options, function(err, res, body) {
     if (err) {
-      console.log(`request error: ${JSON.stringify(err)}`);
       callback(err);
     } else {
-      body = JSON.parse(body.toString());
-
-      console.log(`lagou code: ${body.code}`);
-
-      if (body.code !== 0) {
-        console.log(`lagou body: ${JSON.stringify(body)}`);
-      }
-
-      callback(body);
+      callback( JSON.parse(body.toString()) );
     }
   });
 });
@@ -41,27 +32,21 @@ module.exports = function(callback) {
   var result = [];
   var subscription = source.subscribe(
     function(next) {
-      var content = next.content;
-      if (content) {
-        content.result.forEach(function(item) {
-          result.push({
-            companyName: item.companyName,
-            salary: item.salary,
-            link: `http://www.lagou.com/jobs/${item.positionId}.html`,
-            src: `拉钩网`,
-            title: item.positionName
-          });
+      next.content.result.forEach(function(item) {
+        result.push({
+          companyName: item.companyName,
+          salary: item.salary,
+          link: `http://www.lagou.com/jobs/${item.positionId}.html`,
+          src: `拉钩网`,
+          title: item.positionName
         });
-      } else {
-        console.log(`lagou next: ${ JSON.stringify(next) }`);
-        callback(new Error('fetch lagou failed'), null);
-      }
+      });
     },
 
     function(err) {
       if (err) {
         console.log(`lagou error: ${JSON.stringify(err)}`);
-        callback(err, null);
+        callback(Object.assign({}, err, {src: 'lagou'}), null);
       }
     },
 
