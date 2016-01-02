@@ -4,11 +4,11 @@ var urlTool = require('url');
 var Rx = require('rx');
 
 
-var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
+var rxRequest = Rx.Observable.fromNodeCallback(function(options, callback) {
   console.log(`start fetching: lagou frontEnd page${options.form.pn}`);
   request(options, function(err, res, body) {
-    console.log(`request error: ${JSON.stringify(err)}`);
     if (err) {
+      console.log(`request error: ${JSON.stringify(err)}`);
       callback(err);
     } else {
       body = JSON.parse(body.toString());
