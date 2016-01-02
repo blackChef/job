@@ -7,6 +7,7 @@ var Rx = require('rx');
 var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
   console.log(`start fetching: lagou frontEnd page${options.form.pn}`);
   request(options, function(err, res, body) {
+    console.log(err);
     if (err) {
       callback(err);
     } else {
@@ -28,7 +29,7 @@ module.exports = function(callback) {
     return rxRequest({
       method: 'POST',
       url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
-      timeout: 5000,
+      timeout: 100,
       form: {
         first: false,
         pn: pageCount,
