@@ -9,18 +9,17 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
   request(options, function(err, res, body) {
     if (err) {
       callback(err);
-      return;
+    } else {
+      body = JSON.parse(body.toString());
+
+      console.log(`lagou code: ${body.code}`);
+
+      if (body.code !== 0) {
+        console.log(`lagou body: ${JSON.stringify(body)}`);
+      }
+
+      callback(body);
     }
-
-    body = JSON.parse(body.toString());
-
-    console.log(`lagou code: ${body.code}`);
-
-    if (body.code !== 0) {
-      console.log(`lagou body: ${JSON.stringify(body)}`);
-    }
-
-    callback(body);
   });
 });
 
@@ -35,7 +34,7 @@ module.exports = function(callback) {
         pn: pageCount,
         kd: '前端开发'
       }
-    }).retry(3);
+    });
   });
 
   var result = [];
@@ -60,6 +59,7 @@ module.exports = function(callback) {
 
     function(err) {
       if (err) {
+        console.log(`lagou error: ${JSON.stringify(err)}`);
         callback(err, null);
       }
     },
