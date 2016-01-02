@@ -51,7 +51,7 @@ module.exports = function(callback) {
           });
         });
       } else {
-        console.log(next);
+        console.log(`lagou next: ${ JSON.stringify(next) }`);
         callback(new Error('fetch lagou failed'), null);
       }
     },
