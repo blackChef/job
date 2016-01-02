@@ -2,6 +2,7 @@ var src = `/job/`;
 
 
 var defaultIgnoredCompanies = [
+  '达内',
 ];
 
 var localIgnoredCompanies = JSON.parse(localStorage.getItem('ignoredCompanies')) || [];
@@ -50,6 +51,8 @@ var ignoredTitles = [
   '设计',
   '游戏',
   '美工',
+  '助理',
+  '讲师',
   /实习|训/,
   /\.net/i,
   /java(?!script)/i,
@@ -83,7 +86,8 @@ function parseJSON(response) {
 fetch(src)
   .then(checkStatus)
   .then(parseJSON)
-  .then(function(res) {
+  .then(
+    function(res) {
     var curtVisitTime = Date.now();
     var lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
     localStorage.setItem('lastVisitTime', curtVisitTime);
@@ -124,13 +128,9 @@ fetch(src)
     document.querySelector('.pageContent').classList.add('ready');
     document.querySelector('.splashScreen').classList.add('hidden');
 
-  })
-  .catch(function(err) {
-    if (err.response) {
-      alert(err.response);
-    } else {
-      alert(err.message);
-    }
+    },
+    function(err) {
+    alert( JSON.stringify(err) );
   });
 
 
