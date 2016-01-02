@@ -22,14 +22,14 @@ module.exports = function(callback) {
     return rxRequest({
       method: 'POST',
       url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
-      timeout: 5000,
+      timeout: 10000,
       form: {
         first: false,
         pn: pageCount,
         kd: '前端开发'
       }
-    });
-  }).retry(3);
+    }).retry(3);
+  });
 
   var result = [];
   var subscription = source.subscribe(
