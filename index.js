@@ -28,20 +28,19 @@ app.get('/job', function(req, res) {
 
   fetchAll(function(err, result, newResult) {
     if (err) {
-      res.status(500).end(err);
+      res.status(500).end(err.message);
       return;
     }
 
+    console.log('\r');
     console.log(`=========result ${result.length}========`);
     console.log(`=========newResult ${newResult.length}========`);
-    console.log('\r\n');
+    console.log('\r');
 
     res.json({
       allResult: result,
       newResult: newResult
     });
-
-    console.log('finish request');
   });
 
 });
