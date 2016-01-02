@@ -1,11 +1,11 @@
 var Rx = require('rx');
 var _ = require('lodash');
 var moment = require('moment');
-var proxy = require('proxy-agent');
 var AWS = require('aws-sdk');
 
 if (process.env.ISLOCAL == 1) {
   console.log('use proxy');
+  var proxy = require('proxy-agent');
   AWS.config.update({
     httpOptions: {
       agent: proxy('http://localhost:1080/')
