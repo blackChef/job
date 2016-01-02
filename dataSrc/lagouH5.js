@@ -22,7 +22,7 @@ module.exports = function(callback) {
     return rxRequest({
       method: 'POST',
       url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
-      timeout: 10000,
+      timeout: 5000,
       form: {
         first: false,
         pn: pageCount,
