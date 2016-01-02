@@ -22,14 +22,14 @@ function ignoreCompany(keyword) {
 
 document.documentElement.addEventListener('transitionend', function(event) {
   var target = event.target;
-  if ( target.matches('.jobList-item.hidden') ) {
+  if (target.matches('.jobList-item.hidden')) {
     target.remove();
   }
 }, false);
 
 document.documentElement.addEventListener('click', function(event) {
   var target = event.target;
-  if ( target.matches('.jobList-item-hideBtn') ) {
+  if (target.matches('.jobList-item-hideBtn')) {
     var companyName = target.closest('.list-item-right')
       .querySelector('.list-item-text-title')
       .innerHTML
@@ -88,50 +88,48 @@ fetch(src)
   .then(parseJSON)
   .then(
     function(res) {
-    var curtVisitTime = Date.now();
-    var lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
-    localStorage.setItem('lastVisitTime', curtVisitTime);
+      var curtVisitTime = Date.now();
+      var lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
+      localStorage.setItem('lastVisitTime', curtVisitTime);
 
-    var allJobs = _.chain(res.allResult)
-      .filter(function(item) {
-        return !isIgnoredCompany(item.companyName) && !isIgnoredTitle(item.title);
-      })
-      .sort(function(a, b) {
-        return b.fetchTime - a.fetchTime;
-      })
-      .map(function(item) {
-        return Object.assign({}, item, {
-          date: moment(item.fetchTime).format('YYYY年MM月DD日'),
-          newSinceLastCheck: item.fetchTime > lastVisitTime
-        });
-      })
-      .groupBy('date')
-      .reduce(function(preVal, value, key) {
-        preVal.push({
-          date: key,
-          data: value
-        });
-        return preVal;
-      }, [])
-      .sort(function(a, b) {
-        return b.date - a.date;
-      })
-      .value();
+      var allJobs = _.chain(res.allResult)
+        .filter(function(item) {
+          return !isIgnoredCompany(item.companyName) && !isIgnoredTitle(item.title);
+        })
+        .sort(function(a, b) {
+          return b.fetchTime - a.fetchTime;
+        })
+        .map(function(item) {
+          return Object.assign({}, item, {
+            date: moment(item.fetchTime).format('YYYY年MM月DD日'),
+            newSinceLastCheck: item.fetchTime > lastVisitTime
+          });
+        })
+        .groupBy('date')
+        .reduce(function(preVal, value, key) {
+          preVal.push({
+            date: key,
+            data: value
+          });
+          return preVal;
+        }, [])
+        .sort(function(a, b) {
+          return b.date - a.date;
+        })
+        .value();
 
-    var vm = {
-      allJobs: allJobs,
-      count: res.allResult.length
-    };
+      var vm = {
+        allJobs: allJobs,
+        count: res.allResult.length
+      };
 
 
-    ko.applyBindings(vm);
-    document.querySelector('.pageContent').classList.add('ready');
-    document.querySelector('.splashScreen').classList.add('hidden');
+      ko.applyBindings(vm);
+      document.querySelector('.pageContent').classList.add('ready');
+      document.querySelector('.splashScreen').classList.add('hidden');
 
     },
     function(err) {
-    alert( JSON.stringify(err) );
-  });
-
-
-
+      console.log(err);
+      alert(JSON.stringify(err));
+    });
