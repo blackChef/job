@@ -7,7 +7,7 @@ var Rx = require('rx');
 var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
   console.log(`start fetching: lagou frontEnd page${options.form.pn}`);
   request(options, function(err, res, body) {
-    console.log(err);
+    console.log(`request error: ${JSON.stringify(err)}`);
     if (err) {
       callback(err);
     } else {
