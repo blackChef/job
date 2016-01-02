@@ -14,7 +14,9 @@ var rxRequest = Rx.Observable.fromCallback(function(options, callback) {
 
     body = JSON.parse(body.toString());
 
-    if (!body.success) {
+    console.log(`lagou code: ${body.code}`);
+
+    if (body.code !== 0) {
       console.log(`lagou body: ${JSON.stringify(body)}`);
     }
 
