@@ -126,7 +126,11 @@ fetch(src)
 
   })
   .catch(function(err) {
-    alert(err.response);
+    if (err.response) {
+      alert(err.response);
+    } else {
+      alert(err.message);
+    }
   });
 
 
