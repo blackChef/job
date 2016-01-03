@@ -34,7 +34,6 @@ app.get('/job', function(req, res) {
 
   fetchAll(src, function(err, result, newResult) {
     if (err) {
-      console.log(`express error: `);
       console.log(err.stack);
       res.status(500).end();
       return;

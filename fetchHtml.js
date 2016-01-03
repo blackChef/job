@@ -10,11 +10,11 @@ function fetchContent(options) {
     .flatMap(function(pageCount) {
       return rxRequest({
         url: options.urlTpl.replace('{page}', pageCount),
-        timeout: options.timeout || 5000,
+        timeout: options.timeout || 8000,
         encoding: null,
       });
     })
-    .retry(3)
+    .retry(5)
     .map(function(res) {
       var body = res.body;
 

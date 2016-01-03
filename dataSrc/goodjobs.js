@@ -7,7 +7,6 @@ var defaultOptions = {};
 
 defaultOptions.srcConfig = {
   gbk: true,
-  timeout: 5000,
   pageSize: 5
 };
 
