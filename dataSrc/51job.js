@@ -1,30 +1,38 @@
-var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
+var cheerio = require('cheerio');
+var fetchContent = require('../setOptionsAndFetch.js');
 
-module.exports = function(callback) {
-  var options = {
-    pageTpl: `http://m.51job.com/search/joblist.php?jobarea=150200&keyword=%E5%89%8D%E7%AB%AF&pageno={page}`,
-    handleContent: function($) {
-      var list = $('.jblist > a');
-      return _.map(list, function(item) {
-        return {
-          companyName: $(item).find('aside').text(),
-          salary: $(item).find('em').text(),
-          link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '51job',
-          title: $(item).find('h3').text()
-        };
-      });
-    },
-    complete: function(result) {
-      callback(null, result);
-    },
+var defaultOptions = {};
 
-    error: function(err) {
-      callback(err, null);
-    }
-  };
+defaultOptions.srcConfig = {
+  gbk: false,
+  timeout: 5000,
+  pageSize: 5
+};
 
-  fetchContent(options);
+defaultOptions.urlTpl = `http://m.51job.com/search/joblist.php?` +
+  `jobarea=150200&` +
+  `keyword={keyword}&pageno={page}`;
+
+defaultOptions.handleContent = function (res) {
+  var url = res.url;
+  var $ = res.$;
+
+  var list = $('.jblist > a');
+  return _.map(list, function(item) {
+    return {
+      companyName: $(item).find('aside').text(),
+      salary: $(item).find('em').text(),
+      link: urlTool.resolve(url, $(item).attr('href')),
+      src: '51job',
+      title: $(item).find('h3').text()
+    };
+  });
+};
+
+
+
+module.exports = function() {
+  return fetchContent(defaultOptions, arguments);
 };

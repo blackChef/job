@@ -15,27 +15,35 @@ var server = app.listen(process.env.PORT || 5000, function () {
 
 app.use(compression());
 app.use(express.static('public'));
-// app.use(function(req, res, next){
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-//     next();
-// }).options('*', function(req, res, next){
-//     res.end();
-// });
 
+
+var goodjobs = require('./dataSrc/goodjobs.js');
+var zhilian = require('./dataSrc/zhilian.js');
+var n51job = require('./dataSrc/51job.js');
+var lagou = require('./dataSrc/lagou.js');
+
+var src = [
+  goodjobs('前端'),
+  zhilian('前端'),
+  n51job('前端'),
+  lagou('前端', 'html5'),
+];
 
 app.get('/job', function(req, res) {
+  var startTime = Date.now();
 
-  fetchAll(function(err, result, newResult) {
+  fetchAll(src, function(err, result, newResult) {
     if (err) {
-      console.log(`express error: ${JSON.stringify(err)}`);
-      res.status(500).send(JSON.stringify(err));
+      console.log(`express error: `);
+      console.log(err.stack);
+      res.status(500).end();
       return;
     }
 
     console.log('\r');
     console.log(`=========result ${result.length}========`);
     console.log(`=========newResult ${newResult.length}========`);
+    console.log(`=========finished in ${Date.now() - startTime}ms========`);
     console.log('\r');
 
     res.json({
@@ -43,7 +51,6 @@ app.get('/job', function(req, res) {
       newResult: newResult
     });
   });
-
 });
 
 

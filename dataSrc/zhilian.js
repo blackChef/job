@@ -1,30 +1,37 @@
-var fetchContent = require('../fetch.js');
 var _ = require('lodash');
 var urlTool = require('url');
+var cheerio = require('cheerio');
+var fetchContent = require('../setOptionsAndFetch.js');
 
-module.exports = function(callback) {
-  var options = {
-    pageTpl: `http://m.zhaopin.com/anhui-hefei-664/?keyword=%E5%89%8D%E7%AB%AF&pageindex={page}`,
-    handleContent: function($) {
-      var list = $('.r_searchlist .listbox a');
-      return _.map(list, function(item) {
-        return {
-          companyName: $(item).find('.companyname').text(),
-          salary: $(item).find('.salary').text(),
-          link: urlTool.resolve(options.pageTpl, $(item).attr('href')),
-          src: '智联招聘',
-          title: $(item).find('.jobname').text()
-        };
-      });
-    },
-    complete: function(result) {
-      callback(null, result);
-    },
+var defaultOptions = {};
 
-    error: function(err) {
-      callback(err, null);
-    }
-  };
+defaultOptions.srcConfig = {
+  gbk: false,
+  timeout: 5000,
+  pageSize: 5
+};
 
-  fetchContent(options);
+defaultOptions.urlTpl =
+  `http://m.zhaopin.com/anhui-hefei-664/?keyword={keyword}&pageindex={page}`;
+
+defaultOptions.handleContent = function (res) {
+  var url = res.url;
+  var $ = res.$;
+
+  var list = $('.r_searchlist .listbox a');
+  return _.map(list, function(item) {
+    return {
+      companyName: $(item).find('.companyname').text(),
+      salary: $(item).find('.salary').text(),
+      link: urlTool.resolve(url, $(item).attr('href')),
+      src: '智联招聘',
+      title: $(item).find('.jobname').text()
+    };
+  });
+};
+
+
+
+module.exports = function() {
+  return fetchContent(defaultOptions, arguments);
 };

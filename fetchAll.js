@@ -24,41 +24,18 @@ var s3params = {
   'Key': 'allResult.json'
 };
 
-goodjobs = Rx.Observable.fromNodeCallback(require('./dataSrc/goodjobs.js'));
-n51job = Rx.Observable.fromNodeCallback(require('./dataSrc/51job.js'));
-zhilian = Rx.Observable.fromNodeCallback(require('./dataSrc/zhilian.js'));
-lagou = Rx.Observable.fromNodeCallback(require('./dataSrc/lagou.js'));
-goodjobsH5 = Rx.Observable.fromNodeCallback(require('./dataSrc/goodjobsH5.js'));
-n51jobH5 = Rx.Observable.fromNodeCallback(require('./dataSrc/51jobH5.js'));
-zhilianH5 = Rx.Observable.fromNodeCallback(require('./dataSrc/zhilianH5.js'));
-lagouH5 = Rx.Observable.fromNodeCallback(require('./dataSrc/lagouH5.js'));
 
+module.exports = function(src, callback) {
+  var source = Rx.Observable.merge.apply(null, src)
+    .reduce(function(preVal, curItem) {
+      return preVal.concat(curItem);
+    }, []);
 
-
-module.exports = function(callback) {
-
-  var source = Rx.Observable.concat(
-    lagou()
-    // lagou(),
-    // lagouH5(),
-    // goodjobs(), n51job(), zhilian()
-  );
-
-  var result = [];
   var subscription = source.subscribe(
-    function(next) {
-      result.push(next);
-    },
-    function(err) {
-      if (err) {
-        callback(err, null);
-      }
-    },
-    function() {
+    function(result) {
       var now = Date.now();
 
       var latestResult = _.chain(result)
-        .flatten()
         .uniq(item => item.companyName)
         .map(function(item) {
           return Object.assign({}, item, {
@@ -69,13 +46,15 @@ module.exports = function(callback) {
 
       s3.getObject(s3params, function(err, res) {
         if (err) {
-          callback(err, null, null);
+          callback(err);
           return;
         }
 
         var allResult = JSON.parse(res.Body.toString());
         var newResult = latestResult.filter(function(item) {
-          return !allResult.find(allResultItem => allResultItem.companyName == item.companyName);
+          return !allResult.find(function(allResultItem) {
+            return allResultItem.companyName == item.companyName;
+          });
         });
 
         if (newResult.length > 0) {
@@ -87,7 +66,7 @@ module.exports = function(callback) {
             }),
             function(err, res) {
               if (err) {
-                console.log(err);
+                console.log(`aws update json failed: ${err}`);
               }
             });
         }
@@ -95,6 +74,15 @@ module.exports = function(callback) {
         // dont wait for s3
         callback(null, allResult, newResult);
       });
+    },
+
+    function(err) {
+      if (err) {
+        callback(err);
+      }
+    },
+
+    function() {
     }
   );
 };

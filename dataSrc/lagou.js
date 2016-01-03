@@ -1,56 +1,50 @@
-var request = require('request');
 var _ = require('lodash');
 var urlTool = require('url');
 var Rx = require('rx');
+var rxRequest = require('../rxRequest.js');
 
 
-var rxRequest = Rx.Observable.fromNodeCallback(function(options, callback) {
-  request(options, function(err, res, body) {
-    if (err) {
-      callback(err);
-    } else {
-      callback( JSON.parse(body.toString()) );
-    }
-  });
-});
-
-module.exports = function(callback) {
-  var source = Rx.Observable.range(1, 10).flatMap(function(pageCount) {
-    return rxRequest({
-      method: 'POST',
-      url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
-      timeout: 100,
-      form: {
-        first: false,
-        pn: pageCount,
-        kd: '前端开发'
-      }
-    });
-  });
-
-  var result = [];
-  var subscription = source.subscribe(
-    function(next) {
-      next.content.result.forEach(function(item) {
-        result.push({
+function fetchContent(keyword) {
+  var source = Rx.Observable.range(1, 3)
+    .flatMap(function(pageCount) {
+      return rxRequest({
+        method: 'POST',
+        url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
+        timeout: 8000,
+        form: {
+          first: false,
+          pn: pageCount,
+          kd: keyword
+        }
+      });
+    })
+    .map(function(res) {
+      return JSON.parse(res.body).content.result;
+    })
+    .map(function(result) {
+      return result.map(function(item) {
+        return {
           companyName: item.companyName,
           salary: item.salary,
           link: `http://www.lagou.com/jobs/${item.positionId}.html`,
           src: `拉钩网`,
           title: item.positionName
-        });
+        };
       });
-    },
+    });
 
-    function(err) {
-      if (err) {
-        callback(Object.assign({}, err, {src: 'lagou'}), null);
-      }
-    },
+  return source;
+}
 
-    function() {
-      callback(null, result);
-    }
-  );
+module.exports = function() {
+  var src = _.map(arguments, function(item) {
+    return fetchContent(item);
+  });
+
+  var ret = Rx.Observable.merge.apply(null, src)
+    .reduce(function(preVal, curItem) {
+      return preVal.concat(curItem);
+    }, []);
+
+  return ret;
 };
-
