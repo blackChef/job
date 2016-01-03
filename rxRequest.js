@@ -11,6 +11,7 @@ module.exports = Rx.Observable.fromNodeCallback(function(options, callback) {
       callback(null, { url: options.url, body: body });
     } else {
       console.log(`fetching failed ${options.url}`);
+      console.log(err);
       callback(err);
     }
   });

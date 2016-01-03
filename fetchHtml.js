@@ -10,7 +10,7 @@ function fetchContent(options) {
     .flatMap(function(pageCount) {
       return rxRequest({
         url: options.urlTpl.replace('{page}', pageCount),
-        timeout: options.timeout || 8000,
+        timeout: options.timeout || 10000,
         encoding: null,
       });
     })

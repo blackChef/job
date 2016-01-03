@@ -26,7 +26,7 @@ var s3params = {
 
 
 module.exports = function(src, callback) {
-  var source = Rx.Observable.merge.apply(null, src)
+  var source = Rx.Observable.concat.apply(null, src)
     .reduce(function(preVal, curItem) {
       return preVal.concat(curItem);
     }, []);
