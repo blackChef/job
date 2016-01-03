@@ -18,6 +18,7 @@ function fetchContent(keyword) {
         }
       });
     })
+    .retry(3)
     .map(function(res) {
       return JSON.parse(res.body).content.result;
     })

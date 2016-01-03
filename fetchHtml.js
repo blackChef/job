@@ -13,7 +13,9 @@ function fetchContent(options) {
         timeout: options.timeout || 5000,
         encoding: null,
       });
-    }).map(function(res) {
+    })
+    .retry(3)
+    .map(function(res) {
       var body = res.body;
 
       var html;
