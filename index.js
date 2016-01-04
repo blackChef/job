@@ -24,7 +24,7 @@ var lagou = require('./dataSrc/lagou.js');
 
 var src = [
   goodjobs('前端'),
-  zhilian('前端'),
+  // zhilian('前端'),
   n51job('前端'),
   lagou('前端', 'html5'),
 ];
