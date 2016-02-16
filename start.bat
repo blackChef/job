@@ -1,1 +1,0 @@
-set islocal=1&&node index
