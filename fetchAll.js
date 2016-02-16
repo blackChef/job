@@ -45,8 +45,9 @@ module.exports = function(src, callback) {
       if (newResult.length > 0) {
         allResult = allResult.concat(newResult);
         fs.outputJSONSync('./allResult.json', allResult);
-        callback(null, allResult, newResult);
       }
+
+      callback(null, allResult, newResult);
     },
 
     function(err) {
