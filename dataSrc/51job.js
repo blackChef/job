@@ -12,7 +12,7 @@ defaultOptions.srcConfig = {
 
 defaultOptions.urlTpl = `http://m.51job.com/search/joblist.php?` +
   `jobarea=150200&` +
-  `keyword={keyword}&pageno={page}`;
+  `keyword={keyword}&keywordtype=0&pageno={page}`;
 
 defaultOptions.handleContent = function (res) {
   var url = res.url;

@@ -35,16 +35,18 @@
                   <a target="_blank" data-bind="attr: {href: link}" class="list-item-text">
                     <span data-bind="text: companyName" class="list-item-text-title"></span>
                     <div class="list-item-text-subtitle">
+                      <div class="jobList-item-note" data-bind="text: note"></div>
                       <div data-bind="text: title"></div>
                       <div>
-                        <span data-bind="text: salary"></span>
-                        <span data-bind="text: src"></span>
+                        <span class="jobList-item-salary" data-bind="text: salary"></span>
+                        <span class="jobList-item-src" data-bind="text: src"></span>
                       </div>
                     </div>
                   </a>
 
                   <div class="list-item-actions">
                     <button type="button" class="jobList-item-hideBtn btn-line btn-line--sm btn-line--red list-item-actions-item">隐藏</button>
+                    <button type="button" class="jobList-item-noteBtn btn-line btn-line--sm btn-line--blue list-item-actions-item">备注</button>
                   </div>
                 </div>
               </div>

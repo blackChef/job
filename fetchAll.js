@@ -24,6 +24,14 @@ var s3params = {
   'Key': 'allResult.json'
 };
 
+function getCoreCompanyName(name) {
+  return name
+    .replace(/^(安徽省?|合肥市?|北京|上海|深圳|南京|杭州|广州|浙江)/, '')
+    .replace(/(网络|软件|信息|科技|技术|电子商务).*$/, '')
+    .replace(/(股份)?有限公司.*$/, '')
+    .replace(/集团.*$/, '')
+    .replace(/(安徽|合肥)分公司.*$/, '');
+}
 
 module.exports = function(src, callback) {
   var source = Rx.Observable.concat.apply(null, src)
@@ -36,6 +44,11 @@ module.exports = function(src, callback) {
       var now = Date.now();
 
       var latestResult = _.chain(result)
+        .map(function(item) {
+          return Object.assign({}, item, {
+            companyName: getCoreCompanyName(item.companyName)
+          });
+        })
         .uniq(item => item.companyName)
         .map(function(item) {
           return Object.assign({}, item, {
@@ -82,7 +95,6 @@ module.exports = function(src, callback) {
       }
     },
 
-    function() {
-    }
+    function() {}
   );
 };
