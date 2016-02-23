@@ -20,21 +20,46 @@ module.exports = function(src, callback) {
 
   var subscription = source.subscribe(
     function(result) {
-      var now = Date.now();
+      var order = [
+        '拉钩网',
+        '51job',
+        '新安人才网',
+      ];
 
-      var latestResult = _.chain(result)
+      result = result.map(function(item) {
+        return Object.assign({}, item, {
+          companyName: getCoreCompanyName(item.companyName),
+          fetchTime: Date.now()
+        });
+      });
+
+      var companyNames = _.chain(result)
         .map(function(item) {
-          return Object.assign({}, item, {
-            companyName: getCoreCompanyName(item.companyName)
-          });
+          return item.companyName;
         })
-        .uniq(item => item.companyName)
-        .map(function(item) {
-          return Object.assign({}, item, {
-            fetchTime: now
-          });
-        })
+        .uniq()
         .value();
+
+      var latestResult = companyNames.map(function(companyName) {
+        var ret;
+        var i = 0;
+        while (!ret && i > order.length) {
+          ret = result.find(function(item) {
+            return item.companyName == companyName && item.src == order[i];
+          });
+          i++;
+        }
+
+        if (!ret) {
+          ret = result.find(function(item) {
+            return item.companyName == companyName;
+          });
+        }
+
+        return ret;
+      });
+
+
       var allResult = fs.readJSONSync('./allResult.json');
       var newResult = latestResult.filter(function(item) {
         return !allResult.find(function(allResultItem) {

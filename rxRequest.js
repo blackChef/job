@@ -6,7 +6,6 @@ module.exports = Rx.Observable.fromNodeCallback(function(options, callback) {
 
   request(options, function(err, res, body) {
     // console.log(`finish requesting: ${options.url}`);
-
     if (!err && res.statusCode == 200) {
       callback(null, { url: options.url, body: body });
     } else {

@@ -167,7 +167,7 @@ fetch(src)
         })
         .map(function(item) {
           return Object.assign({}, item, {
-            date: moment(item.fetchTime).format('YYYY年MM月DD日'),
+            date: moment(item.fetchTime).format('YYYY/MM/DD'),
             newSinceLastCheck: item.fetchTime > lastVisitTime
           });
         })
@@ -191,7 +191,7 @@ fetch(src)
           return preVal;
         }, [])
         .sort(function(a, b) {
-          return b.date - a.date;
+          return b.date.replace(/\//g, '') - a.date.replace(/\//g, '');
         })
         .value();
 
