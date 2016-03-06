@@ -10,7 +10,7 @@ defaultOptions.srcConfig = {
   pageSize: 5
 };
 
-defaultOptions.urlTpl = `http://m.goodjobs.cn/list.php?keyword={keyword}&page={page}&kt=1`;
+defaultOptions.urlTpl = `http://m.goodjobs.cn/list.php?boxwpve=1043&keyword={keyword}&page={page}&kt=1`;
 
 defaultOptions.handleContent = function (res) {
   var url = res.url;
