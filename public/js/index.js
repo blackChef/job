@@ -166,7 +166,7 @@ fetch(src)
           return b.fetchTime - a.fetchTime;
         })
         .map(function(item) {
-          return Object.assign({}, item, {
+          return _.assign({}, item, {
             date: moment(item.fetchTime).format('YYYY/MM/DD'),
             newSinceLastCheck: item.fetchTime > lastVisitTime
           });
@@ -178,7 +178,7 @@ fetch(src)
           });
 
           var note = target? target.note : '';
-          return Object.assign({}, allJobsItem, {
+          return _.assign({}, allJobsItem, {
             note: note
           });
         })

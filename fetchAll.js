@@ -1,6 +1,5 @@
 var Rx = require('rx');
 var _ = require('lodash');
-var moment = require('moment');
 var fs = require('fs-extra');
 
 function getCoreCompanyName(name) {
@@ -26,8 +25,8 @@ module.exports = function(src, callback) {
         '新安人才网',
       ];
 
-      result = result.map(function(item) {
-        return Object.assign({}, item, {
+      result = _.map(result, function(item) {
+        return _.assign({}, item, {
           companyName: getCoreCompanyName(item.companyName),
           fetchTime: Date.now()
         });
@@ -40,18 +39,18 @@ module.exports = function(src, callback) {
         .uniq()
         .value();
 
-      var latestResult = companyNames.map(function(companyName) {
+      var latestResult = _.map(companyNames, function(companyName) {
         var ret;
         var i = 0;
         while (!ret && i > order.length) {
-          ret = result.find(function(item) {
+          ret = _.find(result, function(item) {
             return item.companyName == companyName && item.src == order[i];
           });
           i++;
         }
 
         if (!ret) {
-          ret = result.find(function(item) {
+          ret = _.find(result, function(item) {
             return item.companyName == companyName;
           });
         }
@@ -61,8 +60,8 @@ module.exports = function(src, callback) {
 
 
       var allResult = fs.readJSONSync('./allResult.json');
-      var newResult = latestResult.filter(function(item) {
-        return !allResult.find(function(allResultItem) {
+      var newResult = _.filter(latestResult, function(item) {
+        return !_.find(allResult, function(allResultItem) {
           return allResultItem.companyName == item.companyName;
         });
       });

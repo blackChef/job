@@ -2,7 +2,7 @@ var Rx = require('rx');
 var iconv = require('iconv-lite');
 var rxRequest = require('./rxRequest.js');
 var cheerio = require('cheerio');
-
+var _ = require('lodash');
 
 function fetchContent(options) {
   var source = Rx.Observable
@@ -53,15 +53,16 @@ module.exports = function(options) {
   var src = options.src;
   var handleContent = options.handleContent;
 
-  var _src = src
+  var _src = _.chain(src)
     .map(function(item) {
-      return Object.assign({}, item, {
+      return _.assign({}, item, {
         urlTpl: urlTpl.replace('{keyword}', item.keyword)
       });
     })
     .map(function(options) {
       return fetchContent(options);
-    });
+    })
+    .value();
 
   var ret = Rx.Observable.merge.apply(null, _src)
     .map(function(res) {
