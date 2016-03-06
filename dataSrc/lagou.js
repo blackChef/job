@@ -9,7 +9,8 @@ function fetchContent(keyword) {
     .flatMap(function(pageCount) {
       return rxRequest({
         method: 'POST',
-        url: `http://www.lagou.com/jobs/positionAjax.json?px=new&city=%E5%90%88%E8%82%A5`,
+        url: `http://www.lagou.com/jobs/positionAjax.json?px=new&` +
+             `city=%E5%90%88%E8%82%A5`,
         timeout: 8000,
         form: {
           first: false,

@@ -29,9 +29,9 @@ var n51job = require('./dataSrc/51job.js');
 var lagou = require('./dataSrc/lagou.js');
 
 var src = [
-  goodjobs('%C7%B0%B6%CB'), // gbk
+  goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
   zhilian('前端'),
-  n51job('前端'),
+  n51job('前端', 'html5', 'javascript'),
   lagou('前端', 'html5', 'javascript'),
 ];
 

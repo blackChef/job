@@ -14,7 +14,7 @@ function fetchContent(options) {
         encoding: null,
       });
     })
-    .retry(5)
+    .retry(3)
     .map(function(res) {
       var body = res.body;
 
@@ -42,7 +42,7 @@ function fetchContent(options) {
 //   src: [
 //     {
 //       keyword: 'html5',
-//       pageSize: 3,
+//       pageSize: 5,
 //       gbk: false,
 //       timeout: 5000
 //     },
@@ -52,6 +52,7 @@ module.exports = function(options) {
   var urlTpl = options.urlTpl;
   var src = options.src;
   var handleContent = options.handleContent;
+
   var _src = src
     .map(function(item) {
       return Object.assign({}, item, {
