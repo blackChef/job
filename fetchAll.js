@@ -58,6 +58,9 @@ module.exports = function(src, callback) {
         return ret;
       });
 
+      if (!fs.existsSync('./allResult.json')) {
+        fs.outputJSONSync('./allResult.json', []);
+      }
 
       var allResult = fs.readJSONSync('./allResult.json');
       var newResult = _.filter(latestResult, function(item) {
