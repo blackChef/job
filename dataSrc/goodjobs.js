@@ -1,11 +1,11 @@
-var _ = require('lodash');
-var urlTool = require('url');
-var fetchHtml = require('../fetchHtml.js');
-var iconv = require('iconv-lite');
+let _ = require('lodash');
+let urlTool = require('url');
+let fetchHtml = require('../fetchHtml.js');
+let iconv = require('iconv-lite');
 
 
 module.exports = function() {
-  var options = {};
+  let options = {};
 
   options.urlTpl = `http://m.goodjobs.cn/list.php?` +
     `boxwpve=1043&` +
@@ -20,10 +20,10 @@ module.exports = function() {
   });
 
   options.handleContent = function (res) {
-    var url = res.url;
-    var $ = res.$;
+    let url = res.url;
+    let $ = res.$;
 
-    var list = $('.jobview_lists a');
+    let list = $('.jobview_lists a');
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('.corp_name').text(),

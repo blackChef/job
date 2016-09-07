@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var urlTool = require('url');
-var fetchHtml = require('../fetchHtml.js');
+let _ = require('lodash');
+let urlTool = require('url');
+let fetchHtml = require('../fetchHtml.js');
 
 
 module.exports = function() {
-  var options = {};
+  let options = {};
 
   options.src = _.map(arguments, function(item) {
     return {
@@ -18,10 +18,10 @@ module.exports = function() {
     `pageindex={page}`;
 
   options.handleContent = function(res) {
-    var url = res.url;
-    var $ = res.$;
+    let url = res.url;
+    let $ = res.$;
 
-    var list = $('.r_searchlist .listbox a');
+    let list = $('.r_searchlist .listbox a');
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('.companyname').text(),

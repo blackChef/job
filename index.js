@@ -1,15 +1,15 @@
-var _ = require('lodash');
-var fetchAll = require('./fetchAll.js');
-var express = require('express');
-var compression = require('compression');
+let _ = require('lodash');
+let fetchAll = require('./fetchAll.js');
+let express = require('express');
+let compression = require('compression');
 
-var app = express();
+let app = express();
 
-var server = app.listen(process.env.PORT || 5000, function() {
-  var host = server.address().address;
-  var port = server.address().port;
+let server = app.listen(process.env.PORT || 5000, function() {
+  let host = server.address().address;
+  let port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Example app listening at http://', host, port);
 });
 
 app.use(function(req, res, next) {
@@ -19,24 +19,23 @@ app.use(function(req, res, next) {
 }).options('*', function(req, res, next) {
   res.end();
 });
+
 app.use(compression());
 app.use(express.static('public'));
 
 
-var goodjobs = require('./dataSrc/goodjobs.js');
-var zhilian = require('./dataSrc/zhilian.js');
-var n51job = require('./dataSrc/51job.js');
-var lagou = require('./dataSrc/lagou.js');
+let goodjobs = require('./dataSrc/goodjobs.js');
+let zhilian = require('./dataSrc/zhilian.js');
+let n51job = require('./dataSrc/51job.js');
 
-var src = [
-  goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
-  zhilian('前端'),
-  n51job('前端', 'html5', 'javascript'),
-  lagou('前端', 'html5', 'javascript'),
+let src = [
+  // goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
+  // zhilian('前端'),
+  n51job('前端'),
 ];
 
 app.get('/job', function(req, res) {
-  var startTime = Date.now();
+  let startTime = Date.now();
 
   fetchAll(src, function(err, result, newResult) {
     if (err) {

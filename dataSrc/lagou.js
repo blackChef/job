@@ -1,11 +1,11 @@
-var _ = require('lodash');
-var urlTool = require('url');
-var Rx = require('rx');
-var rxRequest = require('../rxRequest.js');
+let _ = require('lodash');
+let urlTool = require('url');
+let Rx = require('rx');
+let rxRequest = require('../rxRequest.js');
 
 
 function fetchContent(keyword) {
-  var source = Rx.Observable.range(1, 3)
+  let source = Rx.Observable.range(1, 3)
     .flatMap(function(pageCount) {
       return rxRequest({
         method: 'POST',
@@ -39,11 +39,11 @@ function fetchContent(keyword) {
 }
 
 module.exports = function() {
-  var src = _.map(arguments, function(item) {
+  let src = _.map(arguments, function(item) {
     return fetchContent(item);
   });
 
-  var ret = Rx.Observable.merge.apply(null, src)
+  let ret = Rx.Observable.merge.apply(null, src)
     .reduce(function(preVal, curItem) {
       return preVal.concat(curItem);
     }, []);

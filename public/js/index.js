@@ -1,17 +1,17 @@
-var src = `/job/`;
+let src = `/job/`;
 
 
-var defaultIgnoredCompanies = [
+let defaultIgnoredCompanies = [
   '达内',
   '医院',
 ];
 
-var localIgnoredCompanies = JSON.parse(localStorage.getItem('ignoredCompanies')) || [];
+let localIgnoredCompanies = JSON.parse(localStorage.getItem('ignoredCompanies')) || [];
 
 function isIgnoredCompany(companyName) {
-  var ignoredCompanies = defaultIgnoredCompanies.concat(localIgnoredCompanies);
+  let ignoredCompanies = defaultIgnoredCompanies.concat(localIgnoredCompanies);
   return ignoredCompanies.some(function(item) {
-    var r = new RegExp(item.replace(/\(/g, '\\(').replace(/\)/g, '\\)'));
+    let r = new RegExp(item.replace(/\(/g, '\\(').replace(/\)/g, '\\)'));
     return r.test(companyName);
   });
 }
@@ -22,23 +22,23 @@ function ignoreCompany(keyword) {
 }
 
 document.documentElement.addEventListener('transitionend', function(event) {
-  var target = event.target;
+  let target = event.target;
   if (target.matches('.jobList-item.hidden')) {
     target.remove();
   }
 }, false);
 
 document.documentElement.addEventListener('click', function(event) {
-  var target = event.target;
+  let target = event.target;
   if (target.matches('.jobList-item-hideBtn')) {
-    var companyName = target.closest('.list-item-right')
+    let companyName = target.closest('.list-item-right')
       .querySelector('.list-item-text-title')
       .innerHTML
       .trim();
 
-    var msg = `确定要隐藏 ==${companyName}== 发布的信息吗?`;
+    let msg = `确定要隐藏 ==${companyName}== 发布的信息吗?`;
 
-    var confirmation = confirm(msg);
+    let confirmation = confirm(msg);
     if (confirmation) {
       ignoreCompany(companyName);
       target.closest('.jobList-item').classList.add('hidden');
@@ -48,7 +48,7 @@ document.documentElement.addEventListener('click', function(event) {
 
 
 
-var ignoredTitles = [
+let ignoredTitles = [
   '设计',
   '初级',
   '营销',
@@ -74,7 +74,7 @@ var ignoredTitles = [
 
 function isIgnoredTitle(title) {
   return ignoredTitles.some(function(item) {
-    var r = new RegExp(item);
+    let r = new RegExp(item);
     return r.test(title);
   });
 }
@@ -83,7 +83,7 @@ function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    var error = new Error(response.statusText);
+    let error = new Error(response.statusText);
     error.response = response;
     throw error;
   }
@@ -95,7 +95,7 @@ function parseJSON(response) {
 
 
 function getNotes() {
-  var ret = localStorage.getItem('notes') || '[]';
+  let ret = localStorage.getItem('notes') || '[]';
   return JSON.parse(ret);
 }
 
@@ -104,15 +104,15 @@ function setNotes(newNotes) {
 }
 
 document.documentElement.addEventListener('click', function(event) {
-  var target = event.target;
+  let target = event.target;
   if (target.matches('.jobList-item-noteBtn')) {
-    var companyName = target.closest('.list-item-right')
+    let companyName = target.closest('.list-item-right')
       .querySelector('.list-item-text-title')
       .innerHTML
       .trim();
 
-    var notes = getNotes();
-    var targetCompany = notes.find(function(item) {
+    let notes = getNotes();
+    let targetCompany = notes.find(function(item) {
       return item.companyName == companyName;
     });
 
@@ -124,7 +124,7 @@ document.documentElement.addEventListener('click', function(event) {
       notes.push(targetCompany);
     }
 
-    var newNote = prompt(`为 ==${companyName}== 添加备注`, targetCompany.note);
+    let newNote = prompt(`为 ==${companyName}== 添加备注`, targetCompany.note);
 
     if (newNote === null) {
       return;
@@ -153,13 +153,13 @@ fetch(src)
   .then(parseJSON)
   .then(
     function(res) {
-      var curtVisitTime = Date.now();
-      var lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
+      let curtVisitTime = Date.now();
+      let lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
       localStorage.setItem('lastVisitTime', curtVisitTime);
       console.log(res.allResult.length);
-      var allJobs = _.chain(res.allResult)
+      let allJobs = _.chain(res.allResult)
         .filter(function(item) {
-          var isIgnored = isIgnoredCompany(item.companyName) || isIgnoredTitle(item.title);
+          let isIgnored = isIgnoredCompany(item.companyName) || isIgnoredTitle(item.title);
           return !isIgnored;
         })
         .sort(function(a, b) {
@@ -172,12 +172,12 @@ fetch(src)
           });
         })
         .map(function(allJobsItem) {
-          var notes = getNotes();
-          var target = notes.find(function(notesItem) {
+          let notes = getNotes();
+          let target = notes.find(function(notesItem) {
             return allJobsItem.companyName == notesItem.companyName;
           });
 
-          var note = target? target.note : '';
+          let note = target? target.note : '';
           return _.assign({}, allJobsItem, {
             note: note
           });
@@ -196,7 +196,7 @@ fetch(src)
         .value();
 
 
-      var vm = {
+      let vm = {
         allJobs: allJobs,
         count: res.allResult.length
       };
@@ -208,5 +208,5 @@ fetch(src)
     },
     function(err) {
       console.log(err);
-      alert(JSON.stringify(err));
+      // alert(JSON.stringify(err));
     });

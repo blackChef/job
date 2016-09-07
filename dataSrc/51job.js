@@ -1,28 +1,18 @@
-var _ = require('lodash');
-var urlTool = require('url');
-var fetchHtml = require('../fetchHtml.js');
+let _ = require('lodash');
+let urlTool = require('url');
+let fetchHtml = require('../fetchHtml.js');
 
+module.exports = function(...keywords) {
+  let isGbk = false;
 
-
-module.exports = function() {
-  var options = {};
-
-  options.src = _.map(arguments, function(item) {
-    return {
-      keyword: encodeURIComponent(item),
-      gbk: false
-    }
-  });
-
-  options.urlTpl = `http://m.51job.com/search/joblist.php?` +
+  let urlTpl = ``+
+    `http://m.51job.com/search/joblist.php?` +
     `jobarea=150200&` +
-    `keyword={keyword}&keywordtype=0&pageno={page}`;
+    `keyword={keyword}&pageno={pageIndex}`;
 
-  options.handleContent = function (res) {
-    var url = res.url;
-    var $ = res.$;
+  let handleContent = function ({ url, $ }) {
+    let list = $('.jblist > a');
 
-    var list = $('.jblist > a');
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('aside').text(),
@@ -34,5 +24,10 @@ module.exports = function() {
     });
   };
 
-  return fetchHtml(options);
+  return fetchHtml({
+    keywords,
+    urlTpl,
+    isGbk,
+    handleContent
+  });
 };

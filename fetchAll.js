@@ -1,6 +1,6 @@
-var Rx = require('rx');
-var _ = require('lodash');
-var fs = require('fs-extra');
+let Rx = require('rx');
+let _ = require('lodash');
+let fs = require('fs-extra');
 
 function getCoreCompanyName(name) {
   return name
@@ -11,63 +11,52 @@ function getCoreCompanyName(name) {
     .replace(/(安徽|合肥)分公司.*$/, '');
 }
 
-module.exports = function(src, callback) {
-  var source = Rx.Observable.concat.apply(null, src)
+
+let assignOtherInfo = function(item) {
+  let companyName = item.companyName.trim();
+  let title = item.title.trim();
+
+  return _.assign({}, item, {
+    companyName: getCoreCompanyName(companyName),
+    fetchTime: Date.now(),
+    identity: JSON.stringify([title, companyName]),
+  });
+};
+
+let isSameIdentity = function(a, b) {
+  return _.isEqual(a.identity, b.identity);
+};
+
+// parseResult :: [jobItem] -> [uniqJobItem]
+let parseResult = function(result) {
+  return _.chain(result)
+    .map(assignOtherInfo)
+    .uniqWith(isSameIdentity)
+    .value();
+};
+
+let getAllResult = function() {
+  if (!fs.existsSync('./allResult.json')) {
+    fs.outputJSONSync('./allResult.json', []);
+  }
+
+  return fs.readJSONSync('./allResult.json');
+};
+
+
+// fetchAllSrc :: Rx src => [src] -> callback
+let fetchAllSrc = function(src, callback) {
+  let source = Rx.Observable
+    .concat(...src)
     .reduce(function(preVal, curItem) {
       return preVal.concat(curItem);
     }, []);
 
-  var subscription = source.subscribe(
+  let subscription = source.subscribe(
     function(result) {
-      var order = [
-        '拉钩网',
-        '51job',
-        '新安人才网',
-      ];
-
-      result = _.map(result, function(item) {
-        return _.assign({}, item, {
-          companyName: getCoreCompanyName(item.companyName),
-          fetchTime: Date.now()
-        });
-      });
-
-      var companyNames = _.chain(result)
-        .map(function(item) {
-          return item.companyName;
-        })
-        .uniq()
-        .value();
-
-      var latestResult = _.map(companyNames, function(companyName) {
-        var ret;
-        var i = 0;
-        while (!ret && i > order.length) {
-          ret = _.find(result, function(item) {
-            return item.companyName == companyName && item.src == order[i];
-          });
-          i++;
-        }
-
-        if (!ret) {
-          ret = _.find(result, function(item) {
-            return item.companyName == companyName;
-          });
-        }
-
-        return ret;
-      });
-
-      if (!fs.existsSync('./allResult.json')) {
-        fs.outputJSONSync('./allResult.json', []);
-      }
-
-      var allResult = fs.readJSONSync('./allResult.json');
-      var newResult = _.filter(latestResult, function(item) {
-        return !_.find(allResult, function(allResultItem) {
-          return allResultItem.companyName == item.companyName;
-        });
-      });
+      let latestResult = parseResult(result);
+      let allResult = getAllResult();
+      let newResult = _.differenceBy( latestResult, allResult, _.property('identity') );
 
       if (newResult.length > 0) {
         allResult = allResult.concat(newResult);
@@ -78,11 +67,12 @@ module.exports = function(src, callback) {
     },
 
     function(err) {
-      if (err) {
-        callback(err);
-      }
+      callback(err);
     },
 
-    function() {}
+    _.empty
   );
 };
+
+
+module.exports = fetchAllSrc;
