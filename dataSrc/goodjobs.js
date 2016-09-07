@@ -4,26 +4,18 @@ let fetchHtml = require('../fetchHtml.js');
 let iconv = require('iconv-lite');
 
 
-module.exports = function() {
-  let options = {};
+module.exports = function(...keywords) {
 
-  options.urlTpl = `http://m.goodjobs.cn/list.php?` +
+  let urlTpl = `http://m.goodjobs.cn/list.php?` +
     `boxwpve=1043&` +
     `keyword={keyword}&` +
-    `page={page}&kt=1`;
+    `page={page}`;
 
-  options.src = _.map(arguments, function(item) {
-    return {
-      keyword: encodeURIComponent(item),
-      gbk: true
-    }
-  });
+  let isGbk = true;
 
-  options.handleContent = function (res) {
-    let url = res.url;
-    let $ = res.$;
-
+  let handleContent = function ({ url, $ }) {
     let list = $('.jobview_lists a');
+
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('.corp_name').text(),
@@ -36,5 +28,10 @@ module.exports = function() {
   };
 
 
-  return fetchHtml(options);
+  return fetchHtml({
+    keywords,
+    urlTpl,
+    isGbk,
+    handleContent
+  });
 };

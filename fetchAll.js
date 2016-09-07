@@ -54,6 +54,7 @@ let fetchAllSrc = function(src, callback) {
 
   let subscription = source.subscribe(
     function(result) {
+      console.log('next');
       let latestResult = parseResult(result);
       let allResult = getAllResult();
       let newResult = _.differenceBy( latestResult, allResult, _.property('identity') );

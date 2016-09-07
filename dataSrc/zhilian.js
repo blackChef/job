@@ -3,25 +3,14 @@ let urlTool = require('url');
 let fetchHtml = require('../fetchHtml.js');
 
 
-module.exports = function() {
-  let options = {};
-
-  options.src = _.map(arguments, function(item) {
-    return {
-      keyword: encodeURIComponent(item),
-      gbk: false
-    }
-  });
-
-  options.urlTpl = `http://m.zhaopin.com/anhui-hefei-664/?` +
+module.exports = function(...keywords) {
+  let urlTpl = `http://m.zhaopin.com/anhui-hefei-664/?` +
     `keyword={keyword}&` +
     `pageindex={page}`;
 
-  options.handleContent = function(res) {
-    let url = res.url;
-    let $ = res.$;
-
+  let handleContent = function({ url, $ }) {
     let list = $('.r_searchlist .listbox a');
+
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('.companyname').text(),
@@ -33,5 +22,9 @@ module.exports = function() {
     });
   };
 
-  return fetchHtml(options);
+  return fetchHtml({
+    keywords,
+    urlTpl,
+    handleContent
+  });
 };
