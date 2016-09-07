@@ -156,7 +156,9 @@ fetch(src)
       let curtVisitTime = Date.now();
       let lastVisitTime = localStorage.getItem('lastVisitTime') || curtVisitTime;
       localStorage.setItem('lastVisitTime', curtVisitTime);
+
       console.log(res.allResult.length);
+
       let allJobs = _.chain(res.allResult)
         .filter(function(item) {
           let isIgnored = isIgnoredCompany(item.companyName) || isIgnoredTitle(item.title);
@@ -166,10 +168,18 @@ fetch(src)
           return b.fetchTime - a.fetchTime;
         })
         .map(function(item) {
-          return _.assign({}, item, {
-            date: moment(item.fetchTime).format('YYYY/MM/DD'),
-            newSinceLastCheck: item.fetchTime > lastVisitTime
-          });
+          let ret = item;
+
+          if (item.location === undefined) {
+            ret = _.assign({}, item, { location: '' });
+          }
+
+          ret = _.assign({}, ret, {
+            date: moment(ret.fetchTime).format('YYYY/MM/DD'),
+            newSinceLastCheck: ret.fetchTime > lastVisitTime,
+          })
+
+          return ret;
         })
         .map(function(allJobsItem) {
           let notes = getNotes();

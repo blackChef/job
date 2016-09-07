@@ -1,8 +1,10 @@
 let Rx = require('rx');
 let _ = require('lodash');
 let fs = require('fs-extra');
+let fetchContent = require('./fetchContent.js');
 
-function getCoreCompanyName(name) {
+
+let getCoreCompanyName = function(name) {
   return name
     .replace(/^(安徽省?|合肥市?|北京|上海|深圳|南京|杭州|广州|浙江)/, '')
     .replace(/(网络|软件|信息|科技|技术|电子商务).*$/, '')
@@ -44,10 +46,11 @@ let getAllResult = function() {
 };
 
 
-// fetchAllSrc :: Rx src => [src] -> callback
-let fetchAllSrc = function(src, callback) {
+let fetchAllSrc = function(srcs, callback) {
+  srcs = _.map(srcs, fetchContent);
+
   let source = Rx.Observable
-    .concat(...src)
+    .concat(...srcs)
     .reduce(function(preVal, curItem) {
       return preVal.concat(curItem);
     }, []);
@@ -68,6 +71,7 @@ let fetchAllSrc = function(src, callback) {
     },
 
     function(err) {
+      console.log('source error', err);
       callback(err);
     },
 

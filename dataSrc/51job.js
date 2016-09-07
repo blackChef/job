@@ -1,6 +1,5 @@
 let _ = require('lodash');
 let urlTool = require('url');
-let fetchHtml = require('../fetchHtml.js');
 
 module.exports = function(...keywords) {
   let isGbk = false;
@@ -15,19 +14,20 @@ module.exports = function(...keywords) {
 
     return _.map(list, function(item) {
       return {
-        companyName: $(item).find('aside').text(),
-        salary: $(item).find('em').text(),
-        link: urlTool.resolve(url, $(item).attr('href')),
+        companyName: $(item).find('aside').text().trim(),
+        salary: $(item).find('em').text().trim(),
+        link: urlTool.resolve(url, $(item).attr('href')).trim(),
         src: '51job',
-        title: $(item).find('h3').text()
+        title: $(item).find('h3').text().trim(),
+        location: $(item).find('i').text().trim()
       };
     });
   };
 
-  return fetchHtml({
+  return {
     keywords,
     urlTpl,
     isGbk,
     handleContent
-  });
+  };
 };

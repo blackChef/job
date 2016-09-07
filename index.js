@@ -29,7 +29,7 @@ let zhilian = require('./dataSrc/zhilian.js');
 let n51job = require('./dataSrc/51job.js');
 
 let src = [
-  // goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
+  goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
   zhilian('前端'),
   n51job('前端'),
 ];

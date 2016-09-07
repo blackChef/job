@@ -41,8 +41,6 @@ let main = function(options) {
     timeout = 3000,
   } = options;
 
-  rxRequest({ url: 'http://www.baidu.com' })
-
   let fetch = fetchHtml(timeout, isGbk);
 
   let srcs = _.chain(keywords)

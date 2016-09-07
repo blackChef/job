@@ -6,12 +6,16 @@ let Rx = require('rx');
 
 module.exports = Rx.Observable.fromNodeCallback(function(options, callback) {
   request(options, function(err, res, body) {
-    console.log('request', options.url);
-
-    if (!err && res.statusCode == 200) {
-      callback(null, body);
-    } else {
+    if (err) {
       callback(err);
+      return;
     }
+
+    if (res.statusCode != 200) {
+      callback({ msg: `failed with code ${res.statusCode}` });
+      return;
+    }
+
+    callback(null, body);
   });
 });
