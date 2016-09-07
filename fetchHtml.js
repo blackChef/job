@@ -23,6 +23,13 @@ let fetchHtml = _.curry(function(timeout, isGbk, url) {
   return source;
 });
 
+let replaceKeyword = function(urlTpl, keyword) {
+  return urlTpl.replace('{keyword}', encodeURIComponent(keyword));
+};
+
+let replacePageIndex = function(urlTpl, pageIndex) {
+  return urlTpl.replace('{pageIndex}', pageIndex);
+};
 
 let main = function(options) {
   let {
@@ -35,8 +42,6 @@ let main = function(options) {
   } = options;
 
   let fetch = fetchHtml(timeout, isGbk);
-  let replaceKeyword = (urlTpl, keyword) => urlTpl.replace('{keyword}', encodeURIComponent(keyword));
-  let replacePageIndex = (urlTpl, pageIndex) => urlTpl.replace('{pageIndex}', pageIndex);
 
   let srcs = _.chain(keywords)
     .map(function(keyword) {
@@ -45,7 +50,8 @@ let main = function(options) {
     .flatMap(function(urlTpl) {
       return _.range(pageSize).map(pageIndex => replacePageIndex(urlTpl, pageIndex));
     })
-    .map(fetch);
+    .map(fetch)
+    .value();
 
   let ret = Rx.Observable.merge(...srcs)
     .map(handleContent)
