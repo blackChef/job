@@ -9,21 +9,22 @@ module.exports = function() {
 
   options.urlTpl = `http://m.goodjobs.cn/list.php?` +
     `boxwpve=1043&` +
+    `salary=313,3189,3190&` +
     `keyword={keyword}&` +
-    `page={page}&kt=1`;
+    `page={page}`;
 
   options.src = _.map(arguments, function(item) {
     return {
       keyword: encodeURIComponent(item),
-      gbk: true
-    }
+    };
   });
 
   options.handleContent = function (res) {
     var url = res.url;
     var $ = res.$;
 
-    var list = $('.jobview_lists a');
+    var list = $('.jobview_lists_b a');
+
     return _.map(list, function(item) {
       return {
         companyName: $(item).find('.corp_name').text(),

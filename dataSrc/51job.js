@@ -11,12 +11,15 @@ module.exports = function() {
     return {
       keyword: encodeURIComponent(item),
       gbk: false
-    }
+    };
   });
 
   options.urlTpl = `http://m.51job.com/search/joblist.php?` +
     `jobarea=150200&` +
-    `keyword={keyword}&keywordtype=0&pageno={page}`;
+    `keyword={keyword}&`+
+    `keywordtype=0&` +
+    `pageno={page}&` +
+    `saltype=07%2C08%2C09%2C06`;
 
   options.handleContent = function (res) {
     var url = res.url;

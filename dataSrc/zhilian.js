@@ -9,26 +9,26 @@ module.exports = function() {
   options.src = _.map(arguments, function(item) {
     return {
       keyword: encodeURIComponent(item),
-      gbk: false
-    }
+    };
   });
 
   options.urlTpl = `http://m.zhaopin.com/anhui-hefei-664/?` +
     `keyword={keyword}&` +
+    `salary=1000115000&` +
     `pageindex={page}`;
 
   options.handleContent = function(res) {
     var url = res.url;
     var $ = res.$;
 
-    var list = $('.r_searchlist .listbox a');
+    var list = $('.job-list a');
     return _.map(list, function(item) {
       return {
-        companyName: $(item).find('.companyname').text(),
-        salary: $(item).find('.salary').text(),
+        companyName: $(item).find('.comp-name').text(),
+        salary: $(item).find('.job-sal').text(),
         link: urlTool.resolve(url, $(item).attr('href')),
         src: '智联招聘',
-        title: $(item).find('.jobname').text()
+        title: $(item).find('.job-name').text()
       };
     });
   };

@@ -5,7 +5,7 @@ var compression = require('compression');
 
 var app = express();
 
-var server = app.listen(process.env.PORT || 5000, function() {
+var server = app.listen(process.env.PORT || 5500, function() {
   var host = server.address().address;
   var port = server.address().port;
 
@@ -29,10 +29,10 @@ var n51job = require('./dataSrc/51job.js');
 var lagou = require('./dataSrc/lagou.js');
 
 var src = [
-  goodjobs('%C7%B0%B6%CB', 'html5', 'javascript'), // gbk
+  goodjobs('前端', 'html5', 'javascript'),
   zhilian('前端'),
   n51job('前端', 'html5', 'javascript'),
-  lagou('前端', 'html5', 'javascript'),
+  // lagou('前端', 'html5', 'javascript'),
 ];
 
 app.get('/job', function(req, res) {
